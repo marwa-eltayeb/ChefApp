@@ -39,3 +39,11 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/fonts/
+
+flutter_native_splash:
+  color: "#FA9A0C"
+  image: assets/images/logo.png
+  android: true
+  android_12:
+    color: "#FA9A0C"
+    image: assets/images/logo_12.png
