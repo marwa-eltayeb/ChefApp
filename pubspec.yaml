@@ -15,6 +15,8 @@ dependencies:
   flutter_native_splash: 2.3.10
   # Localization & multi-language support
   easy_localization: ^3.0.8
+  # Shared Preferences for local storage
+  shared_preferences: ^2.2.2
   # State management
   flutter_bloc: 8.1.3
   # Networking
@@ -27,6 +29,8 @@ dependencies:
   go_router: 13.2.2
 
 
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -37,8 +41,7 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/icons/
-    - assets/fonts/
+    - assets/translations/
 
 flutter_native_splash:
   color: "#FA9A0C"
