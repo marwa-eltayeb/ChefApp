@@ -20,16 +20,20 @@ dependencies:
   # State management
   flutter_bloc: 8.1.3
   # Networking
+  # Dio → For REST API communication (HTTP requests)
   dio: 5.4.1
+  # Supabase → For direct database access, authentication, and realtime
+  supabase_flutter: ^2.5.7
   # Logger for Dio requests
   pretty_dio_logger: 1.3.1
   # Dependency injection
   get_it: 7.6.7
   # Navigation & routing
-  go_router: 13.2.2
-
-
-
+  go_router: ^14.2.7
+  # Environment variables
+  flutter_dotenv: ^5.0.3
+  # Deep linking
+  app_links: ^6.3.2
 
 dev_dependencies:
   flutter_test:
@@ -42,6 +46,7 @@ flutter:
   assets:
     - assets/images/
     - assets/translations/
+    - .env
 
 flutter_native_splash:
   color: "#FA9A0C"

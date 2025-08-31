@@ -1,3 +1,7 @@
+import 'package:chef_app/app/home_with_bottom_nav.dart';
+import 'package:chef_app/features/auth/presentation/screens/forgot_password_screen.dart';
+import 'package:chef_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:chef_app/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:chef_app/features/language/language_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -18,15 +22,20 @@ class AppRouter {
         // Auth
         GoRoute(
           path: Routes.login,
-          builder: (context, state) => const Placeholder(),
+          builder: (context, state) => const LoginScreen(),
         ),
         GoRoute(
           path: Routes.forgotPassword,
-          builder: (context, state) => const Placeholder(),
+          builder: (context, state) => const ForgetPasswordScreen(),
         ),
         GoRoute(
           path: Routes.resetPassword,
-          builder: (context, state) => const Placeholder(),
+          builder: (context, state) => const ResetPasswordScreen(),
+        ),
+
+        GoRoute(
+          path: Routes.home,
+          builder: (context, state) => const HomeWithBottomNav(),
         ),
 
         // Profile
@@ -62,3 +71,4 @@ class AppRouter {
     );
   }
 }
+
