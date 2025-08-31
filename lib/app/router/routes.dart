@@ -8,6 +8,9 @@ class Routes {
   static const String forgotPassword = '/forgot-password';
   static const String resetPassword = '/reset-password';
 
+  // Home
+  static const String home = '/home';
+
   // Profile
   static const String profile = '/profile';
   static const String editProfile = '/edit-profile';
