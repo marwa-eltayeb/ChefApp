@@ -1,28 +1,31 @@
+import 'package:chef_app/core/constants/app_strings.dart';
+import 'package:chef_app/features/meal/presentation/screens/meal_list_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class HomeWithBottomNav extends StatefulWidget {
-  const HomeWithBottomNav({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomeWithBottomNav> createState() => _HomeWithBottomNavState();
+  State<HomeScreen> createState() => _HomeScreen();
 }
 
-class _HomeWithBottomNavState extends State<HomeWithBottomNav> {
+class _HomeScreen extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _tabs = const [
-    MealsPlaceholder(),
+    MealListScreen(),
     ProfilePlaceholder(),
   ];
 
-  final List<BottomNavigationBarItem> _navItems = const [
+  final List<BottomNavigationBarItem> _navItems = [
     BottomNavigationBarItem(
-      icon: Icon(Icons.restaurant_menu),
-      label: "Meals",
+      icon: const Icon(Icons.restaurant_menu),
+      label: AppStrings.meals.tr(),
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.person),
-      label: "Profile",
+      icon: const Icon(Icons.person),
+      label: AppStrings.profile.tr(),
     ),
   ];
 
@@ -40,12 +43,6 @@ class _HomeWithBottomNavState extends State<HomeWithBottomNav> {
       ),
     );
   }
-}
-
-class MealsPlaceholder extends StatelessWidget {
-  const MealsPlaceholder({super.key});
-  @override
-  Widget build(BuildContext context) => const Center(child: Text("Meals Screen"));
 }
 
 class ProfilePlaceholder extends StatelessWidget {
