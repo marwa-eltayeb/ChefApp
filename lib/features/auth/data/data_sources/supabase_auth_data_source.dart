@@ -1,11 +1,11 @@
 import 'package:chef_app/features/auth/data/models/user_model.dart';
-import 'package:chef_app/features/auth/data/repositories/clients/auth_client.dart';
+import 'package:chef_app/features/auth/data/data_sources/auth_data_source.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class SupabaseAuthClient implements AuthClient {
+class SupabaseAuthDataSource implements AuthDataSource {
   final SupabaseClient client;
 
-  SupabaseAuthClient(this.client);
+  SupabaseAuthDataSource(this.client);
 
   @override
   Future<UserModel> login(String email, String password) async {
@@ -25,5 +25,11 @@ class SupabaseAuthClient implements AuthClient {
   @override
   Future<void> resetPassword(String newPassword, {String? token}) async {
     await client.auth.updateUser(UserAttributes(password: newPassword));
+  }
+
+  @override
+  Future<String?> getCurrentUserId() async {
+    final user = client.auth.currentUser;
+    return user?.id;
   }
 }

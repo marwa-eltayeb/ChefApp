@@ -1,4 +1,6 @@
 import 'package:chef_app/app/router/routes.dart';
+import 'package:chef_app/core/constants/app_assets.dart';
+import 'package:chef_app/core/constants/app_strings.dart';
 import 'package:chef_app/core/widgets/custom_text_field.dart';
 import 'package:chef_app/core/widgets/custom_button.dart';
 import 'package:chef_app/features/auth/presentation/cubit/auth_cubit.dart';
@@ -44,7 +46,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             );
           } else if (state is AuthLinkSent) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('reset_link_sent'.tr())),
+              SnackBar(content: Text(AppStrings.resetLinkSent.tr())),
             );
           } else if (state is AuthFailure) {
             Navigator.of(context).pop();
@@ -64,7 +66,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 onPressed: () => context.go(Routes.login),
               ),
               title: Text(
-                'forget_password_title'.tr(),
+                AppStrings.forgetPasswordTitle.tr(),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -83,8 +85,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       const SizedBox(height: 60),
 
                       // Lock Icon
-                      Image.asset(
-                        'assets/images/lock.png',
+                      Image.asset(AppAssets.lock,
                         width: 200,
                         height: 200,
                         fit: BoxFit.contain,
@@ -94,7 +95,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
                       // Description Text
                       Text(
-                        'forget_password_description'.tr(),
+                        AppStrings.forgetPasswordDescription.tr(),
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 16,
@@ -108,7 +109,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       // Email TextField
                       CustomTextField(
                         controller: _emailController,
-                        hintText: 'email'.tr(),
+                        hintText: AppStrings.email.tr(),
                         keyboardType: TextInputType.emailAddress,
                         validator: FormValidators.validateEmailField,
                       ),
@@ -117,7 +118,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
                       // Send Code Button
                       CustomButton(
-                        text: 'send_reset_link'.tr(),
+                        text: AppStrings.sendResetLink.tr(),
                         backgroundColor: const Color(0xFFF5A623),
                         textColor: Colors.white,
                         onPressed: () {
