@@ -1,10 +1,10 @@
-import 'package:chef_app/features/auth/data/repositories/clients/auth_client.dart';
+import 'package:chef_app/features/auth/data/data_sources/auth_data_source.dart';
 import 'package:chef_app/features/auth/domain/entities/user_entity.dart';
 import 'package:chef_app/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
 
-  final AuthClient client;
+  final AuthDataSource client;
 
   AuthRepositoryImpl(this.client);
 
@@ -20,4 +20,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> resetPassword(String newPassword, {String? token}) =>
       client.resetPassword(newPassword, token: token);
+
+  @override
+  Future<String?> getCurrentUserId() => client.getCurrentUserId();
 }

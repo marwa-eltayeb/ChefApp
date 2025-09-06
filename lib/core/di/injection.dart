@@ -1,28 +1,35 @@
-import 'package:chef_app/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:chef_app/features/auth/data/repositories/clients/supabase_auth_client.dart';
-import 'package:chef_app/features/auth/domain/usecases/forgot_password_use_case.dart';
-import 'package:chef_app/features/auth/domain/usecases/login_use_case.dart';
-import 'package:chef_app/features/auth/domain/usecases/reset_password_use_case.dart';
-import 'package:chef_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:chef_app/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:chef_app/features/auth/data/data_sources/auth_data_source.dart';
+import 'package:chef_app/features/auth/data/data_sources/supabase_auth_data_source.dart';
+import 'package:chef_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:chef_app/features/auth/domain/use_cases/forgot_password_use_case.dart';
+import 'package:chef_app/features/auth/domain/use_cases/get_current_user_id_use_case.dart';
+import 'package:chef_app/features/auth/domain/use_cases/login_use_case.dart';
+import 'package:chef_app/features/auth/domain/use_cases/reset_password_use_case.dart';
+import 'package:chef_app/features/auth/presentation/cubit/auth_cubit.dart';
 
 final getIt = GetIt.instance;
 
 void setupDependencies() {
 
-  // Supabase client
   final supabaseClient = Supabase.instance.client;
   getIt.registerSingleton<SupabaseClient>(supabaseClient);
 
-  // Auth layer
-  getIt.registerLazySingleton(() => SupabaseAuthClient(getIt<SupabaseClient>()));
-  getIt.registerLazySingleton(() => AuthRepositoryImpl(getIt<SupabaseAuthClient>()));
-  getIt.registerLazySingleton(() => LoginUseCase(getIt<AuthRepositoryImpl>()));
-  getIt.registerLazySingleton(() => ForgotPasswordUseCase(getIt<AuthRepositoryImpl>()));
-  getIt.registerLazySingleton(() => ResetPasswordUseCase(getIt<AuthRepositoryImpl>()));
+  // Data Sources
+  getIt.registerLazySingleton<AuthDataSource>(() => SupabaseAuthDataSource(getIt<SupabaseClient>()));
 
-  // Auth Cubit
+  // Repositories
+  getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(getIt<AuthDataSource>()));
+
+  // Auth Use Cases
+  getIt.registerLazySingleton(() => LoginUseCase(getIt<AuthRepository>()));
+  getIt.registerLazySingleton(() => ForgotPasswordUseCase(getIt<AuthRepository>()));
+  getIt.registerLazySingleton(() => ResetPasswordUseCase(getIt<AuthRepository>()));
+  getIt.registerLazySingleton(() => GetCurrentUserIdUseCase(getIt<AuthRepository>()));
+
+  // Cubits
   getIt.registerFactory(() => AuthCubit(
     loginUseCase: getIt<LoginUseCase>(),
     forgotPasswordUseCase: getIt<ForgotPasswordUseCase>(),
