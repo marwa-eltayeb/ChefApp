@@ -1,4 +1,6 @@
 import 'package:chef_app/app/router/routes.dart';
+import 'package:chef_app/core/constants/app_assets.dart';
+import 'package:chef_app/core/constants/app_strings.dart';
 import 'package:chef_app/core/widgets/custom_button.dart';
 import 'package:chef_app/features/language/widgets/ChefIcon.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,7 @@ class LanguageScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/bg_language.png'),
+            image: AssetImage(AppAssets.bgLanguage),
             fit: BoxFit.cover,
           ),
         ),
@@ -40,7 +42,7 @@ class LanguageScreen extends StatelessWidget {
               const SizedBox(height: 20),
 
               Text(
-                tr('choose_language'),
+                tr(AppStrings.pleaseChooseYourLanguage.tr()),
                 style: const TextStyle(
                   fontSize: 16,
                   color: Color(0xFF666666),
@@ -56,14 +58,14 @@ class LanguageScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: CustomButton(
-                        text: tr('english'),
+                        text: tr(AppStrings.english.tr()),
                         onPressed: () => _onLanguageSelected(context, 'en'),
                       ),
                     ),
                     const SizedBox(width: 20),
                     Expanded(
                       child: CustomButton(
-                        text: tr('arabic'),
+                        text: tr(AppStrings.arabic.tr()),
                         onPressed: () => _onLanguageSelected(context, 'ar'),
                       ),
                     ),

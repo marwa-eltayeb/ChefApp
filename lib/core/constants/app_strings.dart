@@ -74,10 +74,16 @@ class AppStrings {
   static const String pleaseEnterValidNumber = 'please_enter_valid_number';
   static const String camera = 'camera';
   static const String gallery = 'gallery';
-  static const String meals = 'Meals';
   static const String profile = 'profile';
   static const String deleteMeal = 'delete_meal';
   static const String category = 'category';
+  static const String meals = 'meals';
   static const String noMeals = 'no_meals';
   static const String uploading = 'uploading';
+  static const String updating = 'updating';
+  static const String updateProfile = 'update_profile';
+  static const String profileUpdatedSuccessfully = 'profile_updated_successfully';
+  static const String brandName = 'brand_name';
+  static const String minimumCharge = 'minimum_charge';
+  static const String location = 'location';
 }
