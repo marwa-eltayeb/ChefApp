@@ -32,4 +32,28 @@ class SupabaseAuthDataSource implements AuthDataSource {
     final user = client.auth.currentUser;
     return user?.id;
   }
+
+  @override
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+
+    final user = client.auth.currentUser;
+    if (user == null) throw Exception("User not logged in");
+
+    final response = await client.auth.updateUser(
+      UserAttributes(password: newPassword),
+    );
+
+    if (response.user == null) {
+      throw Exception("Failed to update password");
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    await client.auth.signOut();
+  }
+
 }

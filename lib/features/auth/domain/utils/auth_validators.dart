@@ -46,4 +46,26 @@ class AuthValidators {
       throw ArgumentError('error_invalid_email');
     }
   }
+
+  static String? validatePassword(String password) {
+    if (password.isEmpty) {
+      return "error_password_required";
+    }
+    if (password.length < _minPasswordLength) {
+      return "error_password_too_short";
+    }
+
+    final regex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d).+$');
+    if (!regex.hasMatch(password)) {
+      return "error_password_weak";
+    }
+    return null;
+  }
+
+  static String? validatePasswordMatch(String newPassword, String confirmPassword) {
+    if (newPassword != confirmPassword) {
+      return "error_password_mismatch";
+    }
+    return null;
+  }
 }

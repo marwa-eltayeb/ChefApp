@@ -20,3 +20,14 @@ class AuthFailure extends AuthState {
 
   AuthFailure(this.message);
 }
+
+class AuthLoggedOut extends AuthState {}
+
+class AuthPasswordChangeLoading extends AuthState {}
+
+class AuthPasswordChangeSuccess extends AuthState {}
+
+class AuthPasswordChangeFailure extends AuthState {
+  final String message;
+  AuthPasswordChangeFailure(this.message);
+}

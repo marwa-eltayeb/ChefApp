@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:chef_app/features/auth/domain/use_cases/change_password_use_case.dart';
 import 'package:chef_app/features/auth/domain/use_cases/forgot_password_use_case.dart';
 import 'package:chef_app/features/auth/domain/use_cases/login_use_case.dart';
+import 'package:chef_app/features/auth/domain/use_cases/logout_use_case.dart';
 import 'package:chef_app/features/auth/domain/use_cases/reset_password_use_case.dart';
 import 'package:chef_app/features/auth/presentation/cubit/auth_state.dart';
 
@@ -9,11 +11,15 @@ class AuthCubit extends Cubit<AuthState> {
   final LoginUseCase loginUseCase;
   final ForgotPasswordUseCase forgotPasswordUseCase;
   final ResetPasswordUseCase resetPasswordUseCase;
+  final LogoutUseCase logoutUseCase;
+  final ChangePasswordUseCase changePasswordUseCase;
 
   AuthCubit({
     required this.loginUseCase,
     required this.forgotPasswordUseCase,
     required this.resetPasswordUseCase,
+    required this.logoutUseCase,
+    required this.changePasswordUseCase,
   }) : super(AuthInitial());
 
   Future<void> login({required String email, required String password}) async {
@@ -46,4 +52,31 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> logout() async {
+    emit(AuthLoading());
+    try {
+      await logoutUseCase();
+      emit(AuthLoggedOut());
+    } catch (e) {
+      emit(AuthFailure(e.toString()));
+    }
+  }
+
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    emit(AuthPasswordChangeLoading());
+    try {
+      await changePasswordUseCase(
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword,
+      );
+      emit(AuthPasswordChangeSuccess());
+    } catch (e) {
+      emit(AuthPasswordChangeFailure(e.toString()));
+    }
+  }
 }
