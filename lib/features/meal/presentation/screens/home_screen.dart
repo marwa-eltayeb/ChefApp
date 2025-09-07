@@ -1,5 +1,6 @@
 import 'package:chef_app/core/constants/app_strings.dart';
 import 'package:chef_app/features/meal/presentation/screens/meal_list_screen.dart';
+import 'package:chef_app/features/profile/presentation/screens/profile_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class _HomeScreen extends State<HomeScreen> {
 
   final List<Widget> _tabs = const [
     MealListScreen(),
-    ProfilePlaceholder(),
+    ProfileScreen(),
   ];
 
   final List<BottomNavigationBarItem> _navItems = [
@@ -45,9 +46,4 @@ class _HomeScreen extends State<HomeScreen> {
   }
 }
 
-class ProfilePlaceholder extends StatelessWidget {
-  const ProfilePlaceholder({super.key});
-  @override
-  Widget build(BuildContext context) => const Center(child: Text("Profile Screen"));
-}
 

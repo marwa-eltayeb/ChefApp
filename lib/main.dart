@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:chef_app/app/localization/app_localization.dart';
 import 'package:chef_app/app/localization/language_service.dart';
 import 'package:chef_app/app/router/routes.dart';
+import 'package:chef_app/core/constants/app_assets.dart';
+import 'package:chef_app/core/constants/app_strings.dart';
 import 'package:chef_app/core/di/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:chef_app/app/router/app_router.dart';
@@ -30,8 +32,9 @@ void main() async {
   runApp(
     EasyLocalization(
       supportedLocales: [const Locale('en'), const Locale('ar')],
-      path: 'assets/translations',
-      fallbackLocale: initialLocale,
+      path: AppAssets.assetsTranslation,
+      fallbackLocale: const Locale('en'),
+      startLocale: initialLocale,
       child: MyApp(initialRoute: hasLanguage ? Routes.login : Routes.language),
     ),
   );
@@ -109,7 +112,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Chef App',
+      key: ValueKey(context.locale.languageCode),
+      title: AppStrings.chefApp.tr(),
       debugShowCheckedModeBanner: false,
       routerConfig: _router,
       theme: ThemeData(

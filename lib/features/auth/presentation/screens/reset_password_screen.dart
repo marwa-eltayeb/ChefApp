@@ -37,8 +37,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthCubit>(
-      create: (context) => getIt<AuthCubit>(),
+    return BlocProvider.value(
+      value: getIt<AuthCubit>(),
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthLoading) {

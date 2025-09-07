@@ -78,6 +78,13 @@
   "profile": "الملف الشخصي",
   "delete_meal": "حذف الوجبة",
   "category": "التصنيف",
+  "meals": "الوجبات",
   "no_meals": "لا توجد وجبات بعد",
-  "uploading": "جارٍ الرفع..."
+  "uploading": "جارٍ الرفع...",
+  "updating": "جارٍ التحديث...",
+  "update_profile": "تحديث الملف الشخصي",
+  "profile_updated_successfully": "تم تحديث الملف الشخصي بنجاح",
+  "brand_name": "اسم العلامة التجارية",
+  "location": "الموقع",
+  "minimum_charge": "الحد الأدنى للطلبية"
 }

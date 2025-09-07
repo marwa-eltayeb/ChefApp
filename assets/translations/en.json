@@ -78,6 +78,14 @@
   "profile": "Profile",
   "delete_meal": "Delete Meal",
   "category": "Category",
+  "meals": "Meals",
   "no_meals": "No Meals Yet",
-  "uploading": "Uploading..."
+  "uploading": "Uploading...",
+  "updating": "Updating...",
+  "update_profile": "Update",
+  "profile_updated_successfully": "Profile Updated Successfully",
+  "brand_name": "Brand Name",
+  "location": "Location",
+  "minimum_charge": "Minimum Charge"
 }
+
