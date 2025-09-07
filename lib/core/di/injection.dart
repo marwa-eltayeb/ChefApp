@@ -1,3 +1,12 @@
+import 'package:chef_app/features/profile/data/data_sources/profile_data_source.dart';
+import 'package:chef_app/features/profile/data/data_sources/supabase_profile_data_source.dart';
+import 'package:chef_app/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:chef_app/features/profile/domain/repositories/profile_repository.dart';
+import 'package:chef_app/features/auth/domain/use_cases/change_password_use_case.dart';
+import 'package:chef_app/features/profile/domain/use_cases/get_profile_use_case.dart';
+import 'package:chef_app/features/auth/domain/use_cases/logout_use_case.dart';
+import 'package:chef_app/features/profile/domain/use_cases/update_profile_use_case.dart';
+import 'package:chef_app/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:chef_app/features/auth/data/repositories/auth_repository_impl.dart';
@@ -30,16 +39,20 @@ void setupDependencies() {
   // Data Sources
   getIt.registerLazySingleton<AuthDataSource>(() => SupabaseAuthDataSource(getIt<SupabaseClient>()));
   getIt.registerLazySingleton<MealDataSource>(() => SupabaseMealDataSource(getIt<SupabaseClient>()));
+  getIt.registerLazySingleton<ProfileDataSource>(() => SupabaseProfileDataSource(getIt<SupabaseClient>()));
 
   // Repositories
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(getIt<AuthDataSource>()));
   getIt.registerLazySingleton<MealRepository>(() => MealRepositoryImpl(getIt<MealDataSource>()));
+  getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepositoryImpl(getIt<ProfileDataSource>()));
 
   // Auth Use Cases
   getIt.registerLazySingleton(() => LoginUseCase(getIt<AuthRepository>()));
   getIt.registerLazySingleton(() => ForgotPasswordUseCase(getIt<AuthRepository>()));
   getIt.registerLazySingleton(() => ResetPasswordUseCase(getIt<AuthRepository>()));
   getIt.registerLazySingleton(() => GetCurrentUserIdUseCase(getIt<AuthRepository>()));
+  getIt.registerLazySingleton(() => ChangePasswordUseCase(getIt<AuthRepository>()));
+  getIt.registerLazySingleton(() => LogoutUseCase(getIt<AuthRepository>()));
 
   // Meal Use Cases
   getIt.registerLazySingleton(() => AddMealUseCase(getIt<MealRepository>()));
@@ -48,11 +61,17 @@ void setupDependencies() {
   getIt.registerLazySingleton(() => LoadMealsUseCase(getIt<MealRepository>()));
   getIt.registerLazySingleton(() => UploadMealImageUseCase(getIt<MealRepository>()));
 
+  // Profile Use Cases
+  getIt.registerLazySingleton(() => GetProfileUseCase(getIt<ProfileRepository>()));
+  getIt.registerLazySingleton(() => UpdateProfileUseCase(getIt<ProfileRepository>()));
+
   // Cubits
-  getIt.registerFactory(() => AuthCubit(
+  getIt.registerLazySingleton(() => AuthCubit(
     loginUseCase: getIt<LoginUseCase>(),
     forgotPasswordUseCase: getIt<ForgotPasswordUseCase>(),
     resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
+    changePasswordUseCase: getIt<ChangePasswordUseCase>(),
+    logoutUseCase: getIt<LogoutUseCase>(),
   ));
 
   getIt.registerFactory(() => MealCubit(
@@ -60,6 +79,13 @@ void setupDependencies() {
     deleteMealUseCase: getIt<DeleteMealUseCase>(),
     editMealUseCase: getIt<EditMealUseCase>(),
     loadMealsUseCase: getIt<LoadMealsUseCase>(),
+    uploadMealImageUseCase: getIt<UploadMealImageUseCase>(),
+    getCurrentUserIdUseCase: getIt<GetCurrentUserIdUseCase>(),
+  ));
+
+  getIt.registerFactory(() => ProfileCubit(
+    getProfileUseCase: getIt<GetProfileUseCase>(),
+    updateProfileUseCase: getIt<UpdateProfileUseCase>(),
     uploadMealImageUseCase: getIt<UploadMealImageUseCase>(),
     getCurrentUserIdUseCase: getIt<GetCurrentUserIdUseCase>(),
   ));
