@@ -23,4 +23,20 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<String?> getCurrentUserId() => client.getCurrentUserId();
+
+  @override
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) {
+    return client.changePassword(
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    );
+  }
+
+  @override
+  Future<void> logout() async {
+    await client.logout();
+  }
 }
