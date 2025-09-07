@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:chef_app/features/auth/domain/usecases/forgot_password_use_case.dart';
-import 'package:chef_app/features/auth/domain/usecases/login_use_case.dart';
-import 'package:chef_app/features/auth/domain/usecases/reset_password_use_case.dart';
+import 'package:chef_app/features/auth/domain/use_cases/forgot_password_use_case.dart';
+import 'package:chef_app/features/auth/domain/use_cases/login_use_case.dart';
+import 'package:chef_app/features/auth/domain/use_cases/reset_password_use_case.dart';
 import 'package:chef_app/features/auth/presentation/cubit/auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {

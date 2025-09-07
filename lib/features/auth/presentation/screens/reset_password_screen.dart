@@ -1,3 +1,5 @@
+import 'package:chef_app/core/constants/app_assets.dart';
+import 'package:chef_app/core/constants/app_strings.dart';
 import 'package:chef_app/core/utils/form_validators.dart';
 import 'package:chef_app/core/widgets/custom_text_field.dart';
 import 'package:chef_app/core/widgets/custom_button.dart';
@@ -49,7 +51,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             );
           } else if (state is AuthPasswordReset) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('password_reset_success'.tr())),
+              SnackBar(content: Text(AppStrings.passwordResetSuccess.tr())),
             );
             context.go(Routes.login);
           } else if (state is AuthFailure) {
@@ -66,7 +68,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               backgroundColor: const Color(0xFFF5A623),
               elevation: 0,
               title: Text(
-                'create_new_password_title'.tr(),
+                AppStrings.createNewPasswordTitle.tr(),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -86,8 +88,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                       // Lock Icon
                       Center(
-                        child: Image.asset(
-                          'assets/images/lock.png',
+                        child: Image.asset(AppAssets.lock,
                           width: 200,
                           height: 200,
                           fit: BoxFit.contain,
@@ -98,7 +99,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                       // Description
                       Text(
-                        'create_new_password_description'.tr(),
+                        AppStrings.createNewPasswordDescription.tr(),
                         style: const TextStyle(
                           fontSize: 16,
                           color: Color(0xFF2D2D2D),
@@ -111,7 +112,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       // New Password
                       CustomTextField(
                         controller: _newPasswordController,
-                        hintText: 'new_password'.tr(),
+                        hintText: AppStrings.newPassword.tr(),
                         isPassword: true,
                         isPasswordVisible: _isNewPasswordVisible,
                         onTogglePasswordVisibility: () {
@@ -125,7 +126,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       // Confirm Password
                       CustomTextField(
                         controller: _confirmPasswordController,
-                        hintText: 'confirm_password'.tr(),
+                        hintText: AppStrings.confirmPassword.tr(),
                         isPassword: true,
                         isPasswordVisible: _isConfirmPasswordVisible,
                         onTogglePasswordVisibility: () {
@@ -138,7 +139,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                       // Reset Button
                       CustomButton(
-                        text: 'reset_password'.tr(),
+                        text: AppStrings.resetPassword.tr(),
                         backgroundColor: const Color(0xFFF5A623),
                         textColor: Colors.white,
                         onPressed: () {

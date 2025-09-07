@@ -1,3 +1,5 @@
+import 'package:chef_app/core/constants/app_assets.dart';
+import 'package:chef_app/core/constants/app_strings.dart';
 import 'package:chef_app/core/utils/form_validators.dart';
 import 'package:chef_app/core/widgets/custom_text_field.dart';
 import 'package:chef_app/core/widgets/custom_button.dart';
@@ -61,13 +63,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/background_image.png'),
+                        image: AssetImage(AppAssets.background),
                         fit: BoxFit.cover,
                       ),
                     ),
                     child: Center(
                       child: Text(
-                        'welcome_back'.tr(),
+                        AppStrings.welcomeBack.tr(),
                         style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
@@ -89,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           // Email TextField
                           CustomTextField(
                             controller: _emailController,
-                            hintText: 'email'.tr(),
+                            hintText: AppStrings.email.tr(),
                             keyboardType: TextInputType.emailAddress,
                             validator: FormValidators.validateEmailField,
                           ),
@@ -99,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           // Password TextField
                           CustomTextField(
                             controller: _passwordController,
-                            hintText: 'password'.tr(),
+                            hintText: AppStrings.password.tr(),
                             isPassword: true,
                             isPasswordVisible: _isPasswordVisible,
                             onTogglePasswordVisibility: () {
@@ -120,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 context.go(Routes.forgotPassword);
                               },
                               child: Text(
-                                'forget_password'.tr(),
+                                AppStrings.forgetPassword.tr(),
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF999999),
@@ -134,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           // Sign in button
                           CustomButton(
-                            text: 'sign_in'.tr(),
+                            text: AppStrings.signIn.tr(),
                             onPressed: () {
                               if (_formKey.currentState?.validate() ?? false) {
                                 blocContext.read<AuthCubit>().login(
@@ -154,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'dont_have_account'.tr(),
+                                AppStrings.dontHaveAnAccount.tr(),
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF999999),
@@ -165,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   print('Sign up pressed');
                                 },
                                 child: Text(
-                                  'sign_up'.tr(),
+                                  AppStrings.signUp.tr(),
                                   style: const TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFFF5A623),
