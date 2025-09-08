@@ -1,3 +1,6 @@
+import 'package:chef_app/features/auth/domain/use_cases/change_password_use_case.dart';
+import 'package:chef_app/features/auth/domain/use_cases/logout_use_case.dart';
+import 'package:chef_app/features/auth/domain/use_cases/sign_up_use_case.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:chef_app/features/auth/data/repositories/auth_repository_impl.dart';
@@ -28,11 +31,17 @@ void setupDependencies() {
   getIt.registerLazySingleton(() => ForgotPasswordUseCase(getIt<AuthRepository>()));
   getIt.registerLazySingleton(() => ResetPasswordUseCase(getIt<AuthRepository>()));
   getIt.registerLazySingleton(() => GetCurrentUserIdUseCase(getIt<AuthRepository>()));
+  getIt.registerLazySingleton(() => ChangePasswordUseCase(getIt<AuthRepository>()));
+  getIt.registerLazySingleton(() => LogoutUseCase(getIt<AuthRepository>()));
+  getIt.registerLazySingleton(() => SignUpUseCase(getIt<AuthRepository>()));
 
   // Cubits
-  getIt.registerFactory(() => AuthCubit(
+  getIt.registerLazySingleton(() => AuthCubit(
     loginUseCase: getIt<LoginUseCase>(),
     forgotPasswordUseCase: getIt<ForgotPasswordUseCase>(),
     resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
+    changePasswordUseCase: getIt<ChangePasswordUseCase>(),
+    logoutUseCase: getIt<LogoutUseCase>(),
+    signUpUseCase: getIt<SignUpUseCase>(),
   ));
 }

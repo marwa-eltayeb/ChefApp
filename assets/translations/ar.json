@@ -79,5 +79,16 @@
   "delete_meal": "حذف الوجبة",
   "category": "التصنيف",
   "no_meals": "لا توجد وجبات بعد",
-  "uploading": "جارٍ الرفع..."
+  "uploading": "جارٍ الرفع...",
+
+  "sign_up_title": "إنشاء حساب",
+  "sign_up_success": "تم إنشاء الحساب بنجاح!",
+  "create_account_description": "أنشئ حسابك للبدء",
+  "user_type": "أنا",
+  "chef": "شيف",
+  "customer": "عميل",
+  "full_name": "الاسم الكامل",
+  "brand_name": "اسم العلامة التجارية",
+  "already_have_account": "لديك حساب بالفعل؟",
+  "login": "تسجيل دخول"
 }

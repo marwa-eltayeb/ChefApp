@@ -7,5 +7,13 @@ abstract class AuthRepository {
   Future<String?> getCurrentUserId();
   Future<void> changePassword({required String oldPassword, required String newPassword,});
   Future<void> logout();
+  Future<UserEntity> signUp({
+    required String email,
+    required String password,
+    required String name,
+    required String phone,
+    String? brandName,
+    String? description,
+  });
 }
 

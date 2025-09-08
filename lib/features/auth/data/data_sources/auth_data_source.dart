@@ -7,5 +7,13 @@ abstract class AuthDataSource {
   Future<String?> getCurrentUserId();
   Future<void> changePassword({required String oldPassword, required String newPassword,});
   Future<void> logout();
+  Future<UserModel> signUp({
+    required String email,
+    required String password,
+    required String name,
+    required String phone,
+    String? brandName,
+    String? description,
+  });
 }
 

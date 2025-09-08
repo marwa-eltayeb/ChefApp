@@ -80,4 +80,15 @@ class AppStrings {
   static const String category = 'category';
   static const String noMeals = 'no_meals';
   static const String uploading = 'uploading';
+
+  static const String signUpTitle = 'sign_up_title';
+  static const String signUpSuccess = 'sign_up_success';
+  static const String createAccountDescription = 'create_account_description';
+  static const String userType = 'user_type';
+  static const String chef = 'chef';
+  static const String customer = 'customer';
+  static const String fullName = 'full_name';
+  static const String brandName = 'brand_name';
+  static const String alreadyHaveAccount = 'already_have_account';
+  static const String login = 'login';
 }

@@ -31,3 +31,14 @@ class AuthPasswordChangeFailure extends AuthState {
   final String message;
   AuthPasswordChangeFailure(this.message);
 }
+
+class AuthSignUpSuccess extends AuthState {
+  final UserEntity user;
+  AuthSignUpSuccess(this.user);
+}
+
+class AuthSignUpFailure extends AuthState {
+  final String message;
+  AuthSignUpFailure(this.message);
+}
+

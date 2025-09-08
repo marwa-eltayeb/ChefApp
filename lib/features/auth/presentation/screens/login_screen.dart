@@ -164,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  print('Sign up pressed');
+                                  context.push(Routes.signUp);
                                 },
                                 child: Text(
                                   AppStrings.signUp.tr(),
