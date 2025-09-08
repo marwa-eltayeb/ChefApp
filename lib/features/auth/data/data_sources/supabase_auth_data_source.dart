@@ -56,4 +56,39 @@ class SupabaseAuthDataSource implements AuthDataSource {
     await client.auth.signOut();
   }
 
+  @override
+  Future<UserModel> signUp({
+    required String email,
+    required String password,
+    required String name,
+    required String phone,
+    String? brandName,
+    String? description,
+  }) async {
+    // Create auth user
+    final authResponse = await client.auth.signUp(
+      email: email,
+      password: password,
+    );
+
+    if (authResponse.user == null) {
+      throw Exception('Failed to create user account');
+    }
+
+    // Create profile
+    await client.from('profiles').insert({
+      'id': authResponse.user!.id,
+      'email': email,
+      'name': name,
+      'phone': phone,
+      'brand_name': brandName,
+      'description': description,
+    });
+
+    return UserModel(
+      id: authResponse.user!.id,
+      email: authResponse.user!.email!,
+      token: authResponse.session?.accessToken,
+    );
+  }
 }

@@ -1,14 +1,15 @@
+import 'package:get_it/get_it.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:chef_app/features/auth/domain/use_cases/change_password_use_case.dart';
+import 'package:chef_app/features/auth/domain/use_cases/logout_use_case.dart';
+import 'package:chef_app/features/auth/domain/use_cases/sign_up_use_case.dart';
 import 'package:chef_app/features/profile/data/data_sources/profile_data_source.dart';
 import 'package:chef_app/features/profile/data/data_sources/supabase_profile_data_source.dart';
 import 'package:chef_app/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:chef_app/features/profile/domain/repositories/profile_repository.dart';
-import 'package:chef_app/features/auth/domain/use_cases/change_password_use_case.dart';
 import 'package:chef_app/features/profile/domain/use_cases/get_profile_use_case.dart';
-import 'package:chef_app/features/auth/domain/use_cases/logout_use_case.dart';
 import 'package:chef_app/features/profile/domain/use_cases/update_profile_use_case.dart';
 import 'package:chef_app/features/profile/presentation/cubit/profile_cubit.dart';
-import 'package:get_it/get_it.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:chef_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:chef_app/features/auth/data/data_sources/auth_data_source.dart';
 import 'package:chef_app/features/auth/data/data_sources/supabase_auth_data_source.dart';
@@ -53,6 +54,7 @@ void setupDependencies() {
   getIt.registerLazySingleton(() => GetCurrentUserIdUseCase(getIt<AuthRepository>()));
   getIt.registerLazySingleton(() => ChangePasswordUseCase(getIt<AuthRepository>()));
   getIt.registerLazySingleton(() => LogoutUseCase(getIt<AuthRepository>()));
+  getIt.registerLazySingleton(() => SignUpUseCase(getIt<AuthRepository>()));
 
   // Meal Use Cases
   getIt.registerLazySingleton(() => AddMealUseCase(getIt<MealRepository>()));
@@ -72,6 +74,7 @@ void setupDependencies() {
     resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
     changePasswordUseCase: getIt<ChangePasswordUseCase>(),
     logoutUseCase: getIt<LogoutUseCase>(),
+    signUpUseCase: getIt<SignUpUseCase>(),
   ));
 
   getIt.registerFactory(() => MealCubit(

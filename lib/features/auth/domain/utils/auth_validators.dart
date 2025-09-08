@@ -68,4 +68,35 @@ class AuthValidators {
     }
     return null;
   }
+
+  static void validateSignUpInput({
+    required String email,
+    required String password,
+    required String name,
+    required String phone,
+    String? brandName,
+    String? description,
+  }) {
+    _validateEmail(email);
+
+    if (password.isEmpty) {
+      throw ArgumentError('error_password_required');
+    }
+    if (password.length < _minPasswordLength) {
+      throw ArgumentError('error_password_too_short');
+    }
+
+    if (name.isEmpty) {
+      throw ArgumentError('error_name_required');
+    }
+
+    if (phone.isEmpty) {
+      throw ArgumentError('error_phone_required');
+    }
+
+    if (brandName == null || brandName.isEmpty) {
+      throw ArgumentError('error_brand_name_required');
+    }
+  }
+  
 }

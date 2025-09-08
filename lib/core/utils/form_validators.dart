@@ -50,4 +50,33 @@ class FormValidators {
     if (value == null || value.isEmpty) return 'Please enter a valid meal description';
     return null;
   }
+
+  static String? validateName(String? value) {
+    if (value == null || value.isEmpty) return 'Please enter a valid name';
+    if (value.trim().length < 2) return 'Name must be at least 2 characters';
+    if (!RegExp(r'^[a-zA-Z\u0600-\u06FF\s]+$').hasMatch(value.trim())) {
+      return 'Name can only contain letters and spaces';
+    }
+    return null;
+  }
+
+  static String? validatePhone(String? value) {
+    if (value == null || value.isEmpty) return 'Please enter a valid phone number';
+    if (value.length != 11 || !['010', '012', '011', '018', '017', '016'].contains(value.substring(0, 3))) return 'Please enter a valid phone number';
+    return null;
+  }
+
+  static String? validateBrandName(String? value) {
+    if (value == null || value.isEmpty) return 'Please enter a valid brand name';
+    if (value.trim().length < 2) return 'Brand name must be at least 2 characters';
+    if (value.trim().length > 50) return 'Brand name must be less than 50 characters';
+    return null;
+  }
+
+  static String? validateDescription(String? value) {
+    if (value == null || value.isEmpty) return 'Please enter a valid description';
+    if (value.length < 15) return 'Description must be at least 15 characters';
+    return null;
+  }
+
 }

@@ -30,7 +30,7 @@
   "name": "Name",
   "phone_number": "Phone Number",
   "old_password": "Old Password",
-  "description": "Write some Description",
+  "description": "Description",
   "confirm": "Confirm",
   "please_enter_email": "Please Enter valid E-mail",
   "please_enter_valid_password": "Please Enter valid password",
@@ -86,6 +86,16 @@
   "profile_updated_successfully": "Profile Updated Successfully",
   "brand_name": "Brand Name",
   "location": "Location",
-  "minimum_charge": "Minimum Charge"
+  "minimum_charge": "Minimum Charge",
+
+  "sign_up_title": "Sign Up",
+  "sign_up_success": "Account created successfully!",
+  "create_account_description": "Create your account to get started",
+  "user_type": "I am a",
+  "chef": "Chef",
+  "customer": "Customer",
+  "full_name": "Full Name",
+  "already_have_account": "Already have an account?",
+  "login": "Login"
 }
 

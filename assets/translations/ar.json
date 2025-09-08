@@ -86,5 +86,15 @@
   "profile_updated_successfully": "تم تحديث الملف الشخصي بنجاح",
   "brand_name": "اسم العلامة التجارية",
   "location": "الموقع",
-  "minimum_charge": "الحد الأدنى للطلبية"
+  "minimum_charge": "الحد الأدنى للطلبية",
+
+  "sign_up_title": "إنشاء حساب",
+  "sign_up_success": "تم إنشاء الحساب بنجاح!",
+  "create_account_description": "أنشئ حسابك للبدء",
+  "user_type": "أنا",
+  "chef": "شيف",
+  "customer": "عميل",
+  "full_name": "الاسم الكامل",
+  "already_have_account": "لديك حساب بالفعل؟",
+  "login": "تسجيل دخول"
 }
