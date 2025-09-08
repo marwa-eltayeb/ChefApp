@@ -34,6 +34,23 @@ class FormValidators {
     return null;
   }
 
+  static String? validateMealName(String? value) {
+    if (value == null || value.isEmpty) return 'Please enter a valid meal name';
+    return null;
+  }
+
+  static String? validateMealPrice(String? value) {
+    if (value == null || value.isEmpty) return 'Please enter a valid price';
+    final price = double.tryParse(value);
+    if (price == null || price <= 0) return 'Price must be greater than 0';
+    return null;
+  }
+
+  static String? validateMealDescription(String? value) {
+    if (value == null || value.isEmpty) return 'Please enter a valid meal description';
+    return null;
+  }
+
   static String? validateName(String? value) {
     if (value == null || value.isEmpty) return 'Please enter a valid name';
     if (value.trim().length < 2) return 'Name must be at least 2 characters';
@@ -61,4 +78,5 @@ class FormValidators {
     if (value.length < 15) return 'Description must be at least 15 characters';
     return null;
   }
+
 }

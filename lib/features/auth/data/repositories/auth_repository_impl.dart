@@ -59,4 +59,5 @@ class AuthRepositoryImpl implements AuthRepository {
     );
     return userModel.toEntity();
   }
+  
 }

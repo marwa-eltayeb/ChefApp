@@ -16,6 +16,7 @@ class AuthCubit extends Cubit<AuthState> {
   final ChangePasswordUseCase changePasswordUseCase;
   final SignUpUseCase signUpUseCase;
 
+
   AuthCubit({
     required this.loginUseCase,
     required this.forgotPasswordUseCase,
@@ -106,4 +107,5 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthFailure(e.toString()));
     }
   }
+
 }

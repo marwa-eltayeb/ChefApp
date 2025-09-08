@@ -78,8 +78,15 @@
   "profile": "Profile",
   "delete_meal": "Delete Meal",
   "category": "Category",
+  "meals": "Meals",
   "no_meals": "No Meals Yet",
   "uploading": "Uploading...",
+  "updating": "Updating...",
+  "update_profile": "Update",
+  "profile_updated_successfully": "Profile Updated Successfully",
+  "brand_name": "Brand Name",
+  "location": "Location",
+  "minimum_charge": "Minimum Charge",
 
   "sign_up_title": "Sign Up",
   "sign_up_success": "Account created successfully!",
@@ -88,7 +95,7 @@
   "chef": "Chef",
   "customer": "Customer",
   "full_name": "Full Name",
-  "brand_name": "Brand Name",
   "already_have_account": "Already have an account?",
   "login": "Login"
 }
+

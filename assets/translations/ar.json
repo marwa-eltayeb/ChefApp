@@ -78,8 +78,15 @@
   "profile": "الملف الشخصي",
   "delete_meal": "حذف الوجبة",
   "category": "التصنيف",
+  "meals": "الوجبات",
   "no_meals": "لا توجد وجبات بعد",
   "uploading": "جارٍ الرفع...",
+  "updating": "جارٍ التحديث...",
+  "update_profile": "تحديث الملف الشخصي",
+  "profile_updated_successfully": "تم تحديث الملف الشخصي بنجاح",
+  "brand_name": "اسم العلامة التجارية",
+  "location": "الموقع",
+  "minimum_charge": "الحد الأدنى للطلبية",
 
   "sign_up_title": "إنشاء حساب",
   "sign_up_success": "تم إنشاء الحساب بنجاح!",
@@ -88,7 +95,6 @@
   "chef": "شيف",
   "customer": "عميل",
   "full_name": "الاسم الكامل",
-  "brand_name": "اسم العلامة التجارية",
   "already_have_account": "لديك حساب بالفعل؟",
   "login": "تسجيل دخول"
 }

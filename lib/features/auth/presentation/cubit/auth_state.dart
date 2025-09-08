@@ -42,3 +42,4 @@ class AuthSignUpFailure extends AuthState {
   AuthSignUpFailure(this.message);
 }
 
+

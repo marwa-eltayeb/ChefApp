@@ -98,4 +98,5 @@ class AuthValidators {
       throw ArgumentError('error_brand_name_required');
     }
   }
+  
 }
