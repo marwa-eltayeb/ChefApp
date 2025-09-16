@@ -40,7 +40,6 @@ class _AddMealScreenState extends State<AddMealScreen> {
       _categoryController.text = widget.meal!.category ?? '';
       _descriptionController.text = widget.meal!.description ?? '';
       _howToSell = widget.meal!.howToSell ?? AppStrings.mealNumber;
-      _selectedImage = null;
     }
   }
 
@@ -211,7 +210,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
         description: _descriptionController.text,
         price: double.tryParse(_priceController.text) ?? 0.0,
         category: _categoryController.text,
-        mealImages: [],
+        mealImages: widget.meal?.mealImages ?? [],
         howToSell: _howToSell,
         createdAt: widget.meal?.createdAt ?? DateTime.now(),
         updatedAt: DateTime.now(),
