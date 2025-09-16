@@ -1,0 +1,6 @@
+*.html linguist-detectable=false
+*.css linguist-detectable=false 
+*.js linguist-detectable=false
+android/build/ linguist-generated=true
+build/ linguist-generated=true
+*.dart linguist-detectable=true
