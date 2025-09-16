@@ -45,3 +45,19 @@ app.*.map.json
 /android/app/release
 
 .env
+
+# build directories 
+/android/build/
+/android/.gradle/
+/ios/build/
+/web/build/
+/build/web/
+
+# Coverage and test reports
+coverage/
+test_coverage/
+
+# HTML files in build directories
+build/**/*.html
+android/build/**/*.html
+ios/build/**/*.html
