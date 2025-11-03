@@ -10,11 +10,11 @@ import 'package:chef_app/app/router/app_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:app_links/app_links.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   await dotenv.load(fileName: ".env");
@@ -29,20 +29,27 @@ void main() async {
   final initialLocale = await LanguageService.getSavedLocale();
   final hasLanguage = await LanguageService.isLanguageSelected();
 
-  runApp(
-    EasyLocalization(
-      supportedLocales: [const Locale('en'), const Locale('ar')],
-      path: AppAssets.assetsTranslation,
-      fallbackLocale: const Locale('en'),
-      startLocale: initialLocale,
-      child: MyApp(initialRoute: hasLanguage ? Routes.login : Routes.language),
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = dotenv.env['SENTRY_DSN'];
+      options.tracesSampleRate = .01;
+      options.environment = 'production';
+    },
+    appRunner: () => runApp(
+      EasyLocalization(
+        supportedLocales: [const Locale('en'), const Locale('ar')],
+        path: AppAssets.assetsTranslation,
+        fallbackLocale: const Locale('en'),
+        startLocale: initialLocale,
+        child: MyApp(initialRoute: hasLanguage ? Routes.login : Routes.language),
+      ),
     ),
   );
 }
 
 class MyApp extends StatefulWidget {
-
   final String initialRoute;
+
   const MyApp({super.key, required this.initialRoute});
 
   @override
@@ -62,20 +69,23 @@ class _MyAppState extends State<MyApp> {
 
     _appLinks = AppLinks();
 
-    _sub = _appLinks.uriLinkStream.listen((Uri uri) {
-      debugPrint('Full URI: $uri');
+    _sub = _appLinks.uriLinkStream.listen(
+      (Uri uri) {
+        debugPrint('Full URI: $uri');
 
-      if (uri.scheme == 'myapp' && uri.host == 'reset-password') {
-        final code = uri.queryParameters['code'];
-        if (code != null) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _router.go('/reset-password?code=$code');
-          });
+        if (uri.scheme == 'myapp' && uri.host == 'reset-password') {
+          final code = uri.queryParameters['code'];
+          if (code != null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _router.go('/reset-password?code=$code');
+            });
+          }
         }
-      }
-    }, onError: (err) {
-      debugPrint('Deep link error: $err');
-    });
+      },
+      onError: (err) {
+        debugPrint('Deep link error: $err');
+      },
+    );
 
     _handleInitialLink();
   }
@@ -85,7 +95,8 @@ class _MyAppState extends State<MyApp> {
     try {
       final Uri? initialLink = await _appLinks.getInitialLink();
       if (initialLink != null) {
-        if (initialLink.scheme == 'myapp' && initialLink.host == 'reset-password') {
+        if (initialLink.scheme == 'myapp' &&
+            initialLink.host == 'reset-password') {
           final code = initialLink.queryParameters['code'];
           if (code != null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -126,4 +137,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-

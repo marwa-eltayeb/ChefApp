@@ -36,6 +36,8 @@ dependencies:
   app_links: ^6.3.2
   # Image picker
   image_picker: ^1.0.4
+  # Sentry for error tracking
+  sentry_flutter: 9.8.0
 
 
 dev_dependencies:
