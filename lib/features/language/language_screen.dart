@@ -57,7 +57,7 @@ class LanguageScreen extends StatelessWidget {
 
                     Expanded(
                       child: CustomButton(
-                        text: AppStrings.english..tr(),
+                        text: AppStrings.english.tr(),
                         onPressed: () => _onLanguageSelected(context, AppStrings.englishCode),
                       ),
                     ),
