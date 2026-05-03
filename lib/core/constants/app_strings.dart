@@ -3,6 +3,8 @@ class AppStrings {
   static const String pleaseChooseYourLanguage = 'choose_language';
   static const String english = 'english';
   static const String arabic = 'arabic';
+  static const String englishCode = 'en';
+  static const String arabicCode = 'ar';
   static const String welcomeBack = 'welcome_back';
   static const String email = 'email';
   static const String password = 'password';

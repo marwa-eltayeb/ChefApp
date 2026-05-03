@@ -30,7 +30,7 @@ class LanguageScreen extends StatelessWidget {
               const SizedBox(height: 40),
 
               Text(
-                tr('welcome'),
+                AppStrings.welcomeToChefApp.tr(),
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -42,30 +42,35 @@ class LanguageScreen extends StatelessWidget {
               const SizedBox(height: 20),
 
               Text(
-                tr(AppStrings.pleaseChooseYourLanguage.tr()),
+                AppStrings.pleaseChooseYourLanguage.tr(),
                 style: const TextStyle(fontSize: 16, color: Color(0xFF666666)),
                 textAlign: TextAlign.center,
               ),
 
               const Spacer(flex: 3),
 
+              // Language Selection Buttons
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Row(
                   children: [
+
                     Expanded(
                       child: CustomButton(
-                        text: tr(AppStrings.english.tr()),
-                        onPressed: () => _onLanguageSelected(context, 'en'),
+                        text: AppStrings.english..tr(),
+                        onPressed: () => _onLanguageSelected(context, AppStrings.englishCode),
                       ),
                     ),
+
                     const SizedBox(width: 20),
+
                     Expanded(
                       child: CustomButton(
-                        text: tr(AppStrings.arabic.tr()),
-                        onPressed: () => _onLanguageSelected(context, 'ar'),
+                        text: AppStrings.arabic.tr(),
+                        onPressed: () => _onLanguageSelected(context, AppStrings.arabicCode),
                       ),
                     ),
+
                   ],
                 ),
               ),
