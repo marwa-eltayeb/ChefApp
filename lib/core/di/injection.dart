@@ -1,4 +1,6 @@
+import 'package:chef_app/app/localization/language_service.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:chef_app/features/auth/domain/use_cases/change_password_use_case.dart';
 import 'package:chef_app/features/auth/domain/use_cases/logout_use_case.dart';
@@ -32,10 +34,13 @@ import 'package:chef_app/features/meal/presentation/cubit/meal_cubit.dart';
 
 final getIt = GetIt.instance;
 
-void setupDependencies() {
+Future<void> setupDependencies() async{
 
   final supabaseClient = Supabase.instance.client;
   getIt.registerSingleton<SupabaseClient>(supabaseClient);
+  final prefs = await SharedPreferences.getInstance();
+  getIt.registerSingleton<SharedPreferences>(prefs);
+  getIt.registerLazySingleton(() => LanguageService(getIt<SharedPreferences>()));
 
   // Data Sources
   getIt.registerLazySingleton<AuthDataSource>(() => SupabaseAuthDataSource(getIt<SupabaseClient>()));

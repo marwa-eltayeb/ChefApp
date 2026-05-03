@@ -1,6 +1,7 @@
 import 'package:chef_app/app/router/routes.dart';
 import 'package:chef_app/core/constants/app_assets.dart';
 import 'package:chef_app/core/constants/app_strings.dart';
+import 'package:chef_app/core/di/injection.dart';
 import 'package:chef_app/core/widgets/custom_button.dart';
 import 'package:chef_app/features/language/widgets/ChefIcon.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:chef_app/app/localization/language_service.dart';
 import 'package:go_router/go_router.dart';
 
 class LanguageScreen extends StatelessWidget {
-
   const LanguageScreen({super.key});
 
   @override
@@ -43,10 +43,7 @@ class LanguageScreen extends StatelessWidget {
 
               Text(
                 tr(AppStrings.pleaseChooseYourLanguage.tr()),
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF666666),
-                ),
+                style: const TextStyle(fontSize: 16, color: Color(0xFF666666)),
                 textAlign: TextAlign.center,
               ),
 
@@ -81,11 +78,11 @@ class LanguageScreen extends StatelessWidget {
     );
   }
 
-  void _onLanguageSelected(BuildContext context, String languageCode) {
-    LanguageService.saveLanguageCode(languageCode).then((_) {
-      if (!context.mounted) return;
-      context.setLocale(Locale(languageCode));
-      context.go(Routes.login);
-    });
+  void _onLanguageSelected(BuildContext context, String languageCode) async {
+    final languageService = getIt<LanguageService>();
+    await languageService.saveLanguageCode(languageCode);
+    if (!context.mounted) return;
+    context.setLocale(Locale(languageCode));
+    context.go(Routes.login);
   }
 }

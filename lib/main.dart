@@ -26,8 +26,9 @@ void main() async {
   setupDependencies();
 
   await AppLocalization.initEasyLocalization();
-  final initialLocale = await LanguageService.getSavedLocale();
-  final hasLanguage = await LanguageService.isLanguageSelected();
+  final languageService = getIt<LanguageService>();
+  final initialLocale = await languageService.getSavedLocale();
+  final hasLanguage = await languageService.isLanguageSelected();
 
   await SentryFlutter.init(
     (options) {

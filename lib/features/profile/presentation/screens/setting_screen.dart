@@ -1,5 +1,6 @@
 import 'package:chef_app/app/localization/language_service.dart';
 import 'package:chef_app/core/constants/app_strings.dart';
+import 'package:chef_app/core/di/injection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -13,16 +14,19 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
 
+  late final LanguageService _languageService;
   bool isArabicEnabled = false;
+
 
   @override
   void initState() {
     super.initState();
+    _languageService = getIt<LanguageService>();
     _loadLanguage();
   }
 
   Future<void> _loadLanguage() async {
-    final locale = await LanguageService.getSavedLocale();
+    final locale = await _languageService.getSavedLocale();
     if (!mounted) return;
     setState(() {
       isArabicEnabled = locale.languageCode == 'ar';
@@ -88,7 +92,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onChanged: (value) async {
                       setState(() => isArabicEnabled = value);
                       final code = value ? 'ar' : 'en';
-                      await LanguageService.saveLanguageCode(code);
+                      await _languageService.saveLanguageCode(code);
                       await context.setLocale(Locale(code));
                     },
                     activeColor: Colors.white,
