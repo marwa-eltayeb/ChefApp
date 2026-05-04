@@ -54,22 +54,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               context: context,
               barrierDismissible: false,
               builder: (_) => const Center(
-                child: CircularProgressIndicator(color: Color(0xFFF5A623)),
+                child: CircularProgressIndicator(color: Colors.orange),
               ),
             );
           } else if (state is AuthSignUpSuccess) {
-            Navigator.of(context).pop(); // Close loading dialog
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(AppStrings.signUpSuccess.tr())),
-            );
-            context.go(
-              Routes.home,
-            ); // Or Routes.login if email verification needed
+            Navigator.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppStrings.signUpSuccess.tr())));
+            context.go(Routes.home);
           } else if (state is AuthFailure) {
-            Navigator.of(context).pop(); // Close loading dialog
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            Navigator.of(context).pop();
+            ScaffoldMessenger.of(context,).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
         child: Builder(

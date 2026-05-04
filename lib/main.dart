@@ -121,17 +121,18 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
+  static final _theme = ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    useMaterial3: true,
+  );
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      key: ValueKey(context.locale.languageCode),
       title: AppStrings.chefApp.tr(),
       debugShowCheckedModeBanner: false,
       routerConfig: _router,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: _theme,
       locale: context.locale,
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,

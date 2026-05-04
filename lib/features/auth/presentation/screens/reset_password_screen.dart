@@ -50,15 +50,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               ),
             );
           } else if (state is AuthPasswordReset) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(AppStrings.passwordResetSuccess.tr())),
-            );
+            Navigator.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppStrings.passwordResetSuccess.tr())));
             context.go(Routes.login);
           } else if (state is AuthFailure) {
             Navigator.of(context).pop();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
         child: Builder(

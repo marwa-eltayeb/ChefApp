@@ -45,14 +45,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               ),
             );
           } else if (state is AuthLinkSent) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(AppStrings.resetLinkSent.tr())),
-            );
+            Navigator.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppStrings.resetLinkSent.tr())));
           } else if (state is AuthFailure) {
             Navigator.of(context).pop();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
         child: Builder(
