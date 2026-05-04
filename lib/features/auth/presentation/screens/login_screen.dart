@@ -21,10 +21,17 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+  late final AuthCubit _authCubit;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _authCubit = getIt<AuthCubit>();
+  }
 
   @override
   void dispose() {
@@ -36,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: getIt<AuthCubit>(),
+      value: _authCubit,
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthLoading) {

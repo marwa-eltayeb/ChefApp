@@ -21,8 +21,16 @@ class ForgetPasswordScreen extends StatefulWidget {
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+
+  late final AuthCubit _authCubit;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _authCubit = getIt<AuthCubit>();
+  }
 
   @override
   void dispose() {
@@ -33,7 +41,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: getIt<AuthCubit>(),
+      value: _authCubit,
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthLoading) {

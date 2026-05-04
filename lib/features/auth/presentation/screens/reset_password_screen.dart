@@ -21,12 +21,20 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+
+  late final AuthCubit _authCubit;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
   bool _isNewPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _authCubit = getIt<AuthCubit>();
+  }
 
   @override
   void dispose() {
@@ -38,7 +46,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: getIt<AuthCubit>(),
+      value: _authCubit,
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthLoading) {
