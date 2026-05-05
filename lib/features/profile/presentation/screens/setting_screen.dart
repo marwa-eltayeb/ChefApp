@@ -93,6 +93,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       setState(() => isArabicEnabled = value);
                       final code = value ? 'ar' : 'en';
                       await _languageService.saveLanguageCode(code);
+                      if (!context.mounted) return;
                       await context.setLocale(Locale(code));
                     },
                     activeThumbColor: Colors.white,
