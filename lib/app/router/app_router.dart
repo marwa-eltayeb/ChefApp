@@ -1,3 +1,4 @@
+import 'package:chef_app/core/constants/app_constants.dart';
 import 'package:chef_app/features/meal/presentation/screens/home_screen.dart';
 import 'package:chef_app/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:chef_app/features/auth/presentation/screens/login_screen.dart';
@@ -62,13 +63,9 @@ class AppRouter {
           path: Routes.addMeal,
           builder: (context, state) {
             final extras = state.extra as Map<String, dynamic>?;
-            final cubit = extras?['cubit'] as MealCubit;
-            final meal = extras?['meal'] as MealEntity?;
-
-            return BlocProvider.value(
-              value: cubit,
-              child: AddMealScreen(meal: meal),
-            );
+            final cubit = extras?[AppConstants.cubitArg] as MealCubit;
+            final meal = extras?[AppConstants.mealArg] as MealEntity?;
+            return AddMealScreen(meal: meal, cubit: cubit);
           },
         ),
 
@@ -81,16 +78,12 @@ class AppRouter {
           path: Routes.editProfile,
           builder: (context, state) {
             final extras = state.extra as Map<String, dynamic>?;
-            final cubit = extras?['cubit'] as ProfileCubit;
-            final profile = extras?['profile'] as ProfileEntity?;
-
+            final cubit = extras?[AppConstants.cubitArg] as ProfileCubit;
+            final profile = extras?[AppConstants.profileArg] as ProfileEntity?;
             if (profile == null) {
               throw Exception('Profile cannot be null for EditProfileScreen');
             }
-            return BlocProvider.value(
-              value: cubit,
-              child: EditProfileScreen(profile: profile),
-            );
+            return EditProfileScreen(profile: profile, cubit: cubit);
           },
         ),
         GoRoute(
