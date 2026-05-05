@@ -19,6 +19,8 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+
+  late final AuthCubit _authCubit;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController oldPasswordController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
@@ -27,6 +29,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool isOldPasswordVisible = false;
   bool isNewPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _authCubit = getIt<AuthCubit>();
+  }
 
   @override
   void dispose() {
@@ -39,7 +47,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: getIt<AuthCubit>(),
+      value: _authCubit,
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthPasswordChangeSuccess) {
