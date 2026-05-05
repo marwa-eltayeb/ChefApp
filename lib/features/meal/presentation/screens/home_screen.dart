@@ -12,26 +12,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-  int _currentIndex = 0;
 
+  int _currentIndex = 0;
   final List<Widget> _tabs = const [
     MealListScreen(),
     ProfileScreen(),
   ];
 
-  final List<BottomNavigationBarItem> _navItems = [
-    BottomNavigationBarItem(
-      icon: const Icon(Icons.restaurant_menu),
-      label: AppStrings.meals.tr(),
-    ),
-    BottomNavigationBarItem(
-      icon: const Icon(Icons.person),
-      label: AppStrings.profile.tr(),
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+
+    final List<BottomNavigationBarItem> navItems = [
+      BottomNavigationBarItem(
+        icon: const Icon(Icons.restaurant_menu),
+        label: AppStrings.meals.tr(),
+      ),
+      BottomNavigationBarItem(
+        icon: const Icon(Icons.person),
+        label: AppStrings.profile.tr(),
+      ),
+    ];
+
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
@@ -39,7 +40,7 @@ class _HomeScreen extends State<HomeScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        items: _navItems,
+        items: navItems,
         onTap: (index) => setState(() => _currentIndex = index),
       ),
     );
