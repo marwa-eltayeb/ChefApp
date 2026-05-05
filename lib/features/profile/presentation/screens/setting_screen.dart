@@ -91,7 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     value: isArabicEnabled,
                     onChanged: (value) async {
                       setState(() => isArabicEnabled = value);
-                      final code = value ? 'ar' : 'en';
+                      final code = value ? AppStrings.arabicCode : AppStrings.englishCode;
                       await _languageService.saveLanguageCode(code);
                       if (!context.mounted) return;
                       await context.setLocale(Locale(code));
