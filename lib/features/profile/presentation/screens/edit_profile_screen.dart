@@ -36,7 +36,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController(text: widget.profile.name ?? '');
+    nameController = TextEditingController(text: widget.profile.name);
     phoneController = TextEditingController(text: widget.profile.phone ?? '');
     brandNameController = TextEditingController(text: widget.profile.brandName ?? '',);
     minimumChargeController = TextEditingController(text: widget.profile.minCharge?.toString() ?? '',);

@@ -15,7 +15,6 @@ import 'package:chef_app/features/profile/presentation/screens/change_password_s
 import 'package:chef_app/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:chef_app/features/profile/presentation/screens/profile_screen.dart';
 import 'package:chef_app/features/profile/presentation/screens/setting_screen.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:chef_app/app/router/routes.dart';
 

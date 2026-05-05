@@ -40,7 +40,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
     if (widget.meal != null) {
       _nameController.text = widget.meal!.name;
       _priceController.text = widget.meal!.price.toString();
-      _categoryController.text = widget.meal!.category ?? '';
+      _categoryController.text = widget.meal!.category;
       _descriptionController.text = widget.meal!.description ?? '';
       _howToSell = widget.meal!.howToSell ?? AppStrings.mealNumber;
     }
