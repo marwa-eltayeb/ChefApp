@@ -13,9 +13,11 @@ import 'package:go_router/go_router.dart';
 import 'dart:convert';
 
 class EditProfileScreen extends StatefulWidget {
-  final ProfileEntity profile;
 
-  const EditProfileScreen({super.key, required this.profile});
+  final ProfileEntity profile;
+  final ProfileCubit cubit;
+
+  const EditProfileScreen({super.key, required this.profile, required this.cubit});
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -55,120 +57,123 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ProfileCubit, ProfileState>(
-      listener: (context, state) {
-        if (state is ProfileLoading) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => const Center(
-              child: CircularProgressIndicator(color: Colors.orange),
+    return BlocProvider.value(
+      value: widget.cubit,
+      child: BlocListener<ProfileCubit, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileLoading) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) => const Center(
+                child: CircularProgressIndicator(color: Colors.orange),
+              ),
+            );
+          } else if (state is ProfileLoaded) {
+            Navigator.of(context).pop();
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(AppStrings.profileUpdatedSuccessfully.tr())),
+            );
+          } else if (state is ProfileError) {
+            Navigator.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message), backgroundColor: Colors.red),
+            );
+          }
+        },
+        child: Scaffold(
+          backgroundColor: const Color(0xFFF8F8F8),
+          appBar: AppBar(
+            backgroundColor: const Color(0xFFFF8C00),
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => context.pop(),
             ),
-          );
-        } else if (state is ProfileLoaded) {
-          Navigator.of(context).pop();
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(AppStrings.profileUpdatedSuccessfully.tr())),
-          );
-        } else if (state is ProfileError) {
-          Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
-          );
-        }
-      },
-      child: Scaffold(
-        backgroundColor: const Color(0xFFF8F8F8),
-        appBar: AppBar(
-          backgroundColor: const Color(0xFFFF8C00),
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => context.pop(),
-          ),
-          title: Text(
-            AppStrings.editProfile.tr(),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
+            title: Text(
+              AppStrings.editProfile.tr(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 24),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              children: [
+                const SizedBox(height: 24),
 
-              Center(
-                child: ProfileImagePicker(
-                  initialFile: _selectedImage,
-                  initialUrl: widget.profile.profilePic,
-                  onImagePicked: (file) => _selectedImage = file,
+                Center(
+                  child: ProfileImagePicker(
+                    initialFile: _selectedImage,
+                    initialUrl: widget.profile.profilePic,
+                    onImagePicked: (file) => _selectedImage = file,
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 40),
+                const SizedBox(height: 40),
 
-              // Form Fields
-              CustomTextField(
-                controller: nameController,
-                hintText: AppStrings.name.tr(),
-              ),
+                // Form Fields
+                CustomTextField(
+                  controller: nameController,
+                  hintText: AppStrings.name.tr(),
+                ),
 
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
 
-              CustomTextField(
-                controller: phoneController,
-                hintText: AppStrings.phoneNumber.tr(),
-                keyboardType: TextInputType.phone,
-              ),
+                CustomTextField(
+                  controller: phoneController,
+                  hintText: AppStrings.phoneNumber.tr(),
+                  keyboardType: TextInputType.phone,
+                ),
 
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
 
-              CustomTextField(
-                controller: brandNameController,
-                hintText: AppStrings.brandName.tr(),
-              ),
+                CustomTextField(
+                  controller: brandNameController,
+                  hintText: AppStrings.brandName.tr(),
+                ),
 
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
 
-              CustomTextField(
-                controller: minimumChargeController,
-                hintText: AppStrings.minimumCharge.tr(),
-                keyboardType: TextInputType.number,
-              ),
+                CustomTextField(
+                  controller: minimumChargeController,
+                  hintText: AppStrings.minimumCharge.tr(),
+                  keyboardType: TextInputType.number,
+                ),
 
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
 
-              CustomTextField(
-                controller: descriptionController,
-                hintText: AppStrings.description.tr(),
-              ),
+                CustomTextField(
+                  controller: descriptionController,
+                  hintText: AppStrings.description.tr(),
+                ),
 
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
 
-              CustomTextField(
-                controller: locationController,
-                hintText: AppStrings.location.tr(),
-              ),
+                CustomTextField(
+                  controller: locationController,
+                  hintText: AppStrings.location.tr(),
+                ),
 
-              const SizedBox(height: 40),
+                const SizedBox(height: 40),
 
-              BlocBuilder<ProfileCubit, ProfileState>(
-                builder: (context, state) {
-                  final isLoading = state is ProfileLoading;
-                  return CustomButton(
-                    text: isLoading ? AppStrings.uploading.tr() : AppStrings.updateProfile.tr(),
-                    onPressed: isLoading ? () {} : _updateProfile,
-                    backgroundColor: isLoading ? Colors.grey : Colors.orange,
-                    textColor: Colors.white,
-                  );
-                },
-              ),
-            ],
+                BlocBuilder<ProfileCubit, ProfileState>(
+                  builder: (context, state) {
+                    final isLoading = state is ProfileLoading;
+                    return CustomButton(
+                      text: isLoading ? AppStrings.uploading.tr() : AppStrings.updateProfile.tr(),
+                      onPressed: isLoading ? () {} : _updateProfile,
+                      backgroundColor: isLoading ? Colors.grey : Colors.orange,
+                      textColor: Colors.white,
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

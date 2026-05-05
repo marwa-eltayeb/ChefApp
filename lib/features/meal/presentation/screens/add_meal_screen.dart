@@ -16,7 +16,9 @@ import 'package:chef_app/features/meal/presentation/widgets/meal_image_picker.da
 class AddMealScreen extends StatefulWidget {
 
   final MealEntity? meal;
-  const AddMealScreen({super.key, this.meal});
+  final MealCubit cubit;
+
+  const AddMealScreen({super.key, this.meal, required this.cubit});
 
   @override
   State<AddMealScreen> createState() => _AddMealScreenState();
@@ -55,122 +57,125 @@ class _AddMealScreenState extends State<AddMealScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<MealCubit, MealState>(
-      listener: (context, state) {
-        if (state is MealLoading) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => const Center(
-              child: CircularProgressIndicator(color: Colors.orange),
-            ),
-          );
-        } else if (state is MealLoaded) {
-          Navigator.of(context).pop();
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                widget.meal != null ? AppStrings.mealUpdatedSuccessfully.tr() : AppStrings.mealAddedSuccessfully.tr(),
+    return BlocProvider.value(
+      value: widget.cubit,
+      child: BlocListener<MealCubit, MealState>(
+        listener: (context, state) {
+          if (state is MealLoading) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) => const Center(
+                child: CircularProgressIndicator(color: Colors.orange),
+              ),
+            );
+          } else if (state is MealLoaded) {
+            Navigator.of(context).pop();
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  widget.meal != null ? AppStrings.mealUpdatedSuccessfully.tr() : AppStrings.mealAddedSuccessfully.tr(),
+                ),
+              ),
+            );
+          } else if (state is MealError) {
+            Navigator.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message), backgroundColor: Colors.red),
+            );
+          }
+        },
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: Text(
+              widget.meal != null ? AppStrings.editMeal.tr() : AppStrings.addMeal.tr(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
               ),
             ),
-          );
-        } else if (state is MealError) {
-          Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
-          );
-        }
-      },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text(
-            widget.meal != null ? AppStrings.editMeal.tr() : AppStrings.addMeal.tr(),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
+            backgroundColor: Colors.orange,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
             ),
           ),
-          backgroundColor: Colors.orange,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-              
-                  Center(
-                    child: MealImagePicker(
-                      initialFile: _selectedImage,
-                      initialUrl: widget.meal?.mealImages.isNotEmpty == true ? widget.meal!.mealImages.first : null,
-                      onImagePicked: (file) => _selectedImage = file,
+          body: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+
+                    Center(
+                      child: MealImagePicker(
+                        initialFile: _selectedImage,
+                        initialUrl: widget.meal?.mealImages.isNotEmpty == true ? widget.meal!.mealImages.first : null,
+                        onImagePicked: (file) => _selectedImage = file,
+                      ),
                     ),
-                  ),
-              
-                  const SizedBox(height: 40),
-              
-                  CustomTextField(
-                    controller: _nameController,
-                    hintText: AppStrings.mealName.tr(),
-                    validator: FormValidators.validateMealName,
-                  ),
-              
-                  const SizedBox(height: 16),
-              
-                  CustomTextField(
-                    controller: _priceController,
-                    hintText: AppStrings.mealPrice.tr(),
-                    keyboardType: TextInputType.number,
-                    validator: FormValidators.validateMealPrice,
-                  ),
-              
-                  const SizedBox(height: 16),
-              
-                  CategoryDropdown(
-                    value: _categoryController.text,
-                    onChanged: (val) => _categoryController.text = val ?? '',
-                  ),
-              
-                  const SizedBox(height: 16),
-              
-                  CustomTextField(
-                    controller: _descriptionController,
-                    hintText: AppStrings.mealDescription.tr(),
-                    validator: FormValidators.validateMealDescription,
-                  ),
-              
-                  const SizedBox(height: 32),
 
-                  HowToSellSelector(
-                    initialValue: _howToSell,
-                    onChanged: (val) => _howToSell = val,
-                  ),
+                    const SizedBox(height: 40),
 
-                  const SizedBox(height: 60),
-              
-                  BlocBuilder<MealCubit, MealState>(
-                    builder: (context, state) {
-                      final isLoading = state is MealLoading;
-                      return CustomButton(
-                        text: isLoading ? AppStrings.uploading.tr() : (widget.meal != null ? AppStrings.editMeal.tr() : AppStrings.addMeal.tr()),
-                        onPressed: isLoading ? () {} : _submit,
-                        backgroundColor: isLoading ? Colors.grey : Colors.orange,
-                        textColor: Colors.white,
-                      );
-                    },
-                  ),
-              
-                ],
+                    CustomTextField(
+                      controller: _nameController,
+                      hintText: AppStrings.mealName.tr(),
+                      validator: FormValidators.validateMealName,
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    CustomTextField(
+                      controller: _priceController,
+                      hintText: AppStrings.mealPrice.tr(),
+                      keyboardType: TextInputType.number,
+                      validator: FormValidators.validateMealPrice,
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    CategoryDropdown(
+                      value: _categoryController.text,
+                      onChanged: (val) => _categoryController.text = val ?? '',
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    CustomTextField(
+                      controller: _descriptionController,
+                      hintText: AppStrings.mealDescription.tr(),
+                      validator: FormValidators.validateMealDescription,
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    HowToSellSelector(
+                      initialValue: _howToSell,
+                      onChanged: (val) => _howToSell = val,
+                    ),
+
+                    const SizedBox(height: 60),
+
+                    BlocBuilder<MealCubit, MealState>(
+                      builder: (context, state) {
+                        final isLoading = state is MealLoading;
+                        return CustomButton(
+                          text: isLoading ? AppStrings.uploading.tr() : (widget.meal != null ? AppStrings.editMeal.tr() : AppStrings.addMeal.tr()),
+                          onPressed: isLoading ? () {} : _submit,
+                          backgroundColor: isLoading ? Colors.grey : Colors.orange,
+                          textColor: Colors.white,
+                        );
+                      },
+                    ),
+
+                  ],
+                ),
               ),
             ),
           ),
@@ -181,6 +186,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
 
   void _submit() async {
     if (!_formKey.currentState!.validate()) return;
+    final mealCubit = context.read<MealCubit>();
 
     final meal = MealEntity(
       id: widget.meal?.id,
@@ -195,11 +201,10 @@ class _AddMealScreenState extends State<AddMealScreen> {
       updatedAt: DateTime.now(),
     );
 
-    final cubit = context.read<MealCubit>();
     if (widget.meal != null) {
-      await cubit.editMeal(meal, imageFile: _selectedImage);
+      await mealCubit.editMeal(meal, imageFile: _selectedImage);
     } else {
-      await cubit.addMeal(meal, imageFile: _selectedImage);
+      await mealCubit.addMeal(meal, imageFile: _selectedImage);
     }
   }
 }
