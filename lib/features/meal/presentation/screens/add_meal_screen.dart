@@ -5,6 +5,7 @@ import 'package:chef_app/features/meal/domain/entities/meal_entity.dart';
 import 'package:chef_app/features/meal/presentation/cubit/meal_cubit.dart';
 import 'package:chef_app/features/meal/presentation/cubit/meal_state.dart';
 import 'package:chef_app/features/meal/presentation/widgets/category_dropdown.dart';
+import 'package:chef_app/features/meal/presentation/widgets/how_to_sell_selector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -103,114 +104,74 @@ class _AddMealScreenState extends State<AddMealScreen> {
           padding: const EdgeInsets.all(24.0),
           child: Form(
             key: _formKey,
-            child: ListView(
-              children: [
-                const SizedBox(height: 20),
-
-                Center(
-                  child: MealImagePicker(
-                    initialFile: _selectedImage,
-                    initialUrl: widget.meal?.mealImages.isNotEmpty == true ? widget.meal!.mealImages.first : null,
-                    onImagePicked: (file) => _selectedImage = file,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+              
+                  Center(
+                    child: MealImagePicker(
+                      initialFile: _selectedImage,
+                      initialUrl: widget.meal?.mealImages.isNotEmpty == true ? widget.meal!.mealImages.first : null,
+                      onImagePicked: (file) => _selectedImage = file,
+                    ),
                   ),
-                ),
+              
+                  const SizedBox(height: 40),
+              
+                  CustomTextField(
+                    controller: _nameController,
+                    hintText: AppStrings.mealName.tr(),
+                    validator: FormValidators.validateMealName,
+                  ),
+              
+                  const SizedBox(height: 16),
+              
+                  CustomTextField(
+                    controller: _priceController,
+                    hintText: AppStrings.mealPrice.tr(),
+                    keyboardType: TextInputType.number,
+                    validator: FormValidators.validateMealPrice,
+                  ),
+              
+                  const SizedBox(height: 16),
+              
+                  CategoryDropdown(
+                    value: _categoryController.text,
+                    onChanged: (val) => _categoryController.text = val ?? '',
+                  ),
+              
+                  const SizedBox(height: 16),
+              
+                  CustomTextField(
+                    controller: _descriptionController,
+                    hintText: AppStrings.mealDescription.tr(),
+                    validator: FormValidators.validateMealDescription,
+                  ),
+              
+                  const SizedBox(height: 32),
 
-                const SizedBox(height: 40),
+                  HowToSellSelector(
+                    initialValue: _howToSell,
+                    onChanged: (val) => _howToSell = val,
+                  ),
 
-                CustomTextField(
-                  controller: _nameController,
-                  hintText: AppStrings.mealName.tr(),
-                  validator: FormValidators.validateMealName,
-                ),
-
-                const SizedBox(height: 16),
-
-                CustomTextField(
-                  controller: _priceController,
-                  hintText: AppStrings.mealPrice.tr(),
-                  keyboardType: TextInputType.number,
-                  validator: FormValidators.validateMealPrice,
-                ),
-
-                const SizedBox(height: 16),
-
-                CategoryDropdown(
-                  value: _categoryController.text,
-                  onChanged: (val) => _categoryController.text = val ?? '',
-                ),
-
-                const SizedBox(height: 16),
-
-                CustomTextField(
-                  controller: _descriptionController,
-                  hintText: AppStrings.mealDescription.tr(),
-                  validator: FormValidators.validateMealDescription,
-                ),
-
-                const SizedBox(height: 32),
-
-                Row(
-                  children: [
-                    Transform.translate(
-                      offset: const Offset(-12, 0),
-                      child: Row(
-                        children: [
-                          Radio<String>(
-                            value: AppStrings.mealNumber,
-                            groupValue: _howToSell,
-                            onChanged: (val) => setState(() => _howToSell = val!),
-                            activeColor: Colors.orange,
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          Text(
-                            AppStrings.mealNumber.tr(),
-                            style: const TextStyle(
-                              fontSize: 20,
-                              color: Color(0xFF2D2D2D),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const Spacer(),
-
-                    Row(
-                      children: [
-                        Radio<String>(
-                          value: AppStrings.mealQuantity,
-                          groupValue: _howToSell,
-                          onChanged: (val) => setState(() => _howToSell = val!),
-                          activeColor: Colors.orange,
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        Text(
-                          AppStrings.mealQuantity.tr(),
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Color(0xFF2D2D2D),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 60),
-
-                BlocBuilder<MealCubit, MealState>(
-                  builder: (context, state) {
-                    final isLoading = state is MealLoading;
-                    return CustomButton(
-                      text: isLoading ? AppStrings.uploading.tr() : (widget.meal != null ? AppStrings.editMeal.tr() : AppStrings.addMeal.tr()),
-                      onPressed: isLoading ? () {} : _submit,
-                      backgroundColor: isLoading ? Colors.grey : Colors.orange,
-                      textColor: Colors.white,
-                    );
-                  },
-                ),
-
-              ],
+                  const SizedBox(height: 60),
+              
+                  BlocBuilder<MealCubit, MealState>(
+                    builder: (context, state) {
+                      final isLoading = state is MealLoading;
+                      return CustomButton(
+                        text: isLoading ? AppStrings.uploading.tr() : (widget.meal != null ? AppStrings.editMeal.tr() : AppStrings.addMeal.tr()),
+                        onPressed: isLoading ? () {} : _submit,
+                        backgroundColor: isLoading ? Colors.grey : Colors.orange,
+                        textColor: Colors.white,
+                      );
+                    },
+                  ),
+              
+                ],
+              ),
             ),
           ),
         ),
