@@ -95,7 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       await _languageService.saveLanguageCode(code);
                       await context.setLocale(Locale(code));
                     },
-                    activeColor: Colors.white,
+                    activeThumbColor: Colors.white,
                     activeTrackColor: const Color(0xFFFF8C00),
                     inactiveThumbColor: Colors.white,
                     inactiveTrackColor: const Color(0xFFE0E0E0),
