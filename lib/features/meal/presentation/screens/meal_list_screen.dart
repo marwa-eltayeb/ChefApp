@@ -1,5 +1,7 @@
 import 'package:chef_app/app/router/routes.dart';
+import 'package:chef_app/core/constants/app_constants.dart';
 import 'package:chef_app/core/constants/app_strings.dart';
+import 'package:chef_app/core/di/injection.dart';
 import 'package:chef_app/core/widgets/custom_button.dart';
 import 'package:chef_app/features/meal/presentation/widgets/meal_item.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -7,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chef_app/features/meal/presentation/cubit/meal_cubit.dart';
 import 'package:chef_app/features/meal/presentation/cubit/meal_state.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class MealListScreen extends StatefulWidget {
@@ -18,12 +19,13 @@ class MealListScreen extends StatefulWidget {
 }
 
 class _MealListScreenState extends State<MealListScreen> {
+
   late final MealCubit _mealCubit;
 
   @override
   void initState() {
     super.initState();
-    _mealCubit = GetIt.I<MealCubit>()..loadMeals();
+    _mealCubit = getIt<MealCubit>()..loadMeals();
   }
 
   @override
@@ -37,6 +39,7 @@ class _MealListScreenState extends State<MealListScreen> {
             padding: const EdgeInsets.all(24.0),
             child: Column(
               children: [
+
                 CustomButton(
                   text: AppStrings.addMeal.tr(),
                   onPressed: () async {
@@ -74,7 +77,7 @@ class _MealListScreenState extends State<MealListScreen> {
                               onLongPress: () async {
                                 await context.push(
                                   Routes.addMeal,
-                                  extra: {'cubit': _mealCubit, 'meal': meal},
+                                  extra: {AppConstants.cubitArg: _mealCubit, AppConstants.mealArg: meal},
                                 );
                               },
                             );

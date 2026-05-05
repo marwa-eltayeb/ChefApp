@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:chef_app/app/router/routes.dart';
+import 'package:chef_app/core/constants/app_constants.dart';
 import 'package:chef_app/core/constants/app_strings.dart';
+import 'package:chef_app/core/di/injection.dart';
 import 'package:chef_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:chef_app/features/auth/presentation/cubit/auth_state.dart';
 import 'package:chef_app/features/profile/presentation/cubit/profile_cubit.dart';
@@ -23,16 +25,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   late final ProfileCubit _profileCubit;
   late final AuthCubit _authCubit;
-  late final StreamSubscription _authSub;
+  late final StreamSubscription _streamSubscription;
 
   @override
   void initState() {
     super.initState();
-
-    _profileCubit = GetIt.I<ProfileCubit>()..loadProfile();
-
-    _authCubit = GetIt.I<AuthCubit>();
-    _authSub = _authCubit.stream.listen((state) {
+    _profileCubit = getIt<ProfileCubit>()..loadProfile();
+    _authCubit = getIt<AuthCubit>();
+    _streamSubscription = _authCubit.stream.listen((state) {
       if (state is AuthLoggedOut && mounted) {
         context.go(Routes.login);
       }
@@ -41,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void dispose() {
-    _authSub.cancel();
+    _streamSubscription.cancel();
     super.dispose();
   }
 
@@ -64,6 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return Column(
                       children: [
                         const SizedBox(height: 40),
+
                         // Profile Image with edit icon
                         Stack(
                           children: [
@@ -89,9 +90,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ? NetworkImage(profile.profilePic!)
                                     : null,
                                 backgroundColor: Colors.grey,
-                                child: (profile.profilePic == null ||
-                                    profile.profilePic!.isEmpty)
-                                    ? const Icon(
+                                child: (profile.profilePic == null || profile.profilePic!.isEmpty) ?
+                                const Icon(
                                   Icons.person,
                                   size: 40,
                                   color: Colors.white,
@@ -134,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onTap: () {
                             context.push(
                               Routes.editProfile,
-                              extra: {'cubit': _profileCubit, 'profile': profile},
+                              extra: {AppConstants.cubitArg: _profileCubit, AppConstants.profileArg: profile},
                             );
                           },
                         ),
