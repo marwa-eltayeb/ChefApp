@@ -58,8 +58,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  final _theme = ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    useMaterial3: true,
+  );
+
   late final GoRouter _router;
-  StreamSubscription? _sub;
+  StreamSubscription? _streamSubscription;
   late final AppLinks _appLinks;
 
   @override
@@ -70,7 +76,7 @@ class _MyAppState extends State<MyApp> {
 
     _appLinks = AppLinks();
 
-    _sub = _appLinks.uriLinkStream.listen(
+    _streamSubscription = _appLinks.uriLinkStream.listen(
       (Uri uri) {
         debugPrint('Full URI: $uri');
 
@@ -117,14 +123,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    _sub?.cancel();
+    _streamSubscription?.cancel();
     super.dispose();
   }
-
-  static final _theme = ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-    useMaterial3: true,
-  );
 
   @override
   Widget build(BuildContext context) {
