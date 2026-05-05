@@ -22,7 +22,6 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-
   late final TextEditingController nameController;
   late final TextEditingController phoneController;
   late final TextEditingController brandNameController;
@@ -31,22 +30,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController locationController;
 
   File? _selectedImage;
-  bool _isUploading = false;
 
   @override
   void initState() {
     super.initState();
     nameController = TextEditingController(text: widget.profile.name ?? '');
     phoneController = TextEditingController(text: widget.profile.phone ?? '');
-    brandNameController =
-        TextEditingController(text: widget.profile.brandName ?? '');
-    minimumChargeController =
-        TextEditingController(text: widget.profile.minCharge?.toString() ?? '');
-    descriptionController =
-        TextEditingController(text: widget.profile.description ?? '');
-    locationController = TextEditingController(
-        text: widget.profile.location != null ? jsonEncode(
-            widget.profile.location) : '');
+    brandNameController = TextEditingController(text: widget.profile.brandName ?? '',);
+    minimumChargeController = TextEditingController(text: widget.profile.minCharge?.toString() ?? '',);
+    descriptionController = TextEditingController(text: widget.profile.description ?? '',);
+    locationController = TextEditingController(text: widget.profile.location != null ? jsonEncode(widget.profile.location) : '');
   }
 
   @override
@@ -68,8 +61,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (_) =>
-            const Center(
+            builder: (_) => const Center(
               child: CircularProgressIndicator(color: Colors.orange),
             ),
           );
@@ -77,21 +69,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           Navigator.of(context).pop();
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(AppStrings.profileUpdatedSuccessfully.tr()),
-              ));
-          } else
-              if (state is ProfileError)
-          {
-            Navigator.of(context).pop();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-        },
+            SnackBar(content: Text(AppStrings.profileUpdatedSuccessfully.tr())),
+          );
+        } else if (state is ProfileError) {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
+          );
+        }
+      },
       child: Scaffold(
         backgroundColor: const Color(0xFFF8F8F8),
         appBar: AppBar(
@@ -120,8 +106,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: ProfileImagePicker(
                   initialFile: _selectedImage,
                   initialUrl: widget.profile.profilePic,
-                  onImagePicked: (file) =>
-                      setState(() => _selectedImage = file),
+                  onImagePicked: (file) => _selectedImage = file,
                 ),
               ),
 
@@ -129,22 +114,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               // Form Fields
               CustomTextField(
-                  controller: nameController,
-                  hintText: AppStrings.name.tr()
-              ),
-
-              const SizedBox(height: 16),
-
-              CustomTextField(controller: phoneController,
-                hintText: AppStrings.phoneNumber.tr(),
-                keyboardType: TextInputType.phone
+                controller: nameController,
+                hintText: AppStrings.name.tr(),
               ),
 
               const SizedBox(height: 16),
 
               CustomTextField(
-                  controller: brandNameController,
-                  hintText: AppStrings.brandName.tr()
+                controller: phoneController,
+                hintText: AppStrings.phoneNumber.tr(),
+                keyboardType: TextInputType.phone,
+              ),
+
+              const SizedBox(height: 16),
+
+              CustomTextField(
+                controller: brandNameController,
+                hintText: AppStrings.brandName.tr(),
               ),
 
               const SizedBox(height: 16),
@@ -158,30 +144,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(height: 16),
 
               CustomTextField(
-                  controller: descriptionController,
-                  hintText: AppStrings.description.tr()
+                controller: descriptionController,
+                hintText: AppStrings.description.tr(),
               ),
 
               const SizedBox(height: 16),
 
               CustomTextField(
-                  controller: locationController,
-                  hintText: AppStrings.location.tr()
+                controller: locationController,
+                hintText: AppStrings.location.tr(),
               ),
 
               const SizedBox(height: 40),
 
-              CustomButton(
-                text: _isUploading
-                    ? AppStrings.uploading.tr()
-                    : AppStrings.updateProfile.tr(),
-                onPressed: () {
-                  if (!_isUploading) _updateProfile();
+              BlocBuilder<ProfileCubit, ProfileState>(
+                builder: (context, state) {
+                  final isLoading = state is ProfileLoading;
+                  return CustomButton(
+                    text: isLoading ? AppStrings.uploading.tr() : AppStrings.updateProfile.tr(),
+                    onPressed: isLoading ? () {} : _updateProfile,
+                    backgroundColor: isLoading ? Colors.grey : Colors.orange,
+                    textColor: Colors.white,
+                  );
                 },
-                backgroundColor: _isUploading ? Colors.grey : Colors.orange,
-                textColor: Colors.white,
               ),
-
             ],
           ),
         ),
@@ -190,30 +176,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _updateProfile() async {
-    setState(() => _isUploading = true);
+    final profileCubit = context.read<ProfileCubit>();
 
-    try {
-      final profileCubit = context.read<ProfileCubit>();
-      final updatedProfile = ProfileEntity(
-        id: widget.profile.id,
-        name: nameController.text,
-        phone: phoneController.text,
-        brandName: brandNameController.text,
-        minCharge: int.tryParse(minimumChargeController.text) ?? 0,
-        description: descriptionController.text,
-        location: locationController.text.isNotEmpty ? jsonDecode(
-            locationController.text) as Map<String, dynamic> : null,
-        profilePic: widget.profile.profilePic,
-        email: widget.profile.email,
-        userType: widget.profile.userType,
-        createdAt: widget.profile.createdAt,
-        updatedAt: DateTime.now(),
-      );
+    final updatedProfile = ProfileEntity(
+      id: widget.profile.id,
+      name: nameController.text,
+      phone: phoneController.text,
+      brandName: brandNameController.text,
+      minCharge: int.tryParse(minimumChargeController.text) ?? 0,
+      description: descriptionController.text,
+      location: locationController.text.isNotEmpty ? jsonDecode(locationController.text) as Map<String, dynamic> : null,
+      profilePic: widget.profile.profilePic,
+      email: widget.profile.email,
+      userType: widget.profile.userType,
+      createdAt: widget.profile.createdAt,
+      updatedAt: DateTime.now(),
+    );
 
-      await profileCubit.updateProfile(
-          updatedProfile, imageFile: _selectedImage);
-    } finally {
-      if (mounted) setState(() => _isUploading = false);
-    }
+    await profileCubit.updateProfile(updatedProfile, imageFile: _selectedImage);
   }
 }

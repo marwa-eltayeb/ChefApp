@@ -13,8 +13,8 @@ import 'package:chef_app/core/widgets/custom_button.dart';
 import 'package:chef_app/features/meal/presentation/widgets/meal_image_picker.dart';
 
 class AddMealScreen extends StatefulWidget {
-  final MealEntity? meal;
 
+  final MealEntity? meal;
   const AddMealScreen({super.key, this.meal});
 
   @override
@@ -22,6 +22,7 @@ class AddMealScreen extends StatefulWidget {
 }
 
 class _AddMealScreenState extends State<AddMealScreen> {
+
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
@@ -29,7 +30,6 @@ class _AddMealScreenState extends State<AddMealScreen> {
   final _descriptionController = TextEditingController();
   String _howToSell = AppStrings.mealNumber;
   File? _selectedImage;
-  bool _isUploading = false;
 
   @override
   void initState() {
@@ -44,6 +44,15 @@ class _AddMealScreenState extends State<AddMealScreen> {
   }
 
   @override
+  void dispose() {
+    _nameController.dispose();
+    _priceController.dispose();
+    _categoryController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<MealCubit, MealState>(
       listener: (context, state) {
@@ -51,7 +60,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (_) => const Center(child: CircularProgressIndicator(color: Colors.orange)),
+            builder: (_) => const Center(
+              child: CircularProgressIndicator(color: Colors.orange),
+            ),
           );
         } else if (state is MealLoaded) {
           Navigator.of(context).pop();
@@ -59,9 +70,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                widget.meal != null
-                    ? AppStrings.mealUpdatedSuccessfully.tr()
-                    : AppStrings.mealAddedSuccessfully.tr(),
+                widget.meal != null ? AppStrings.mealUpdatedSuccessfully.tr() : AppStrings.mealAddedSuccessfully.tr(),
               ),
             ),
           );
@@ -77,7 +86,11 @@ class _AddMealScreenState extends State<AddMealScreen> {
         appBar: AppBar(
           title: Text(
             widget.meal != null ? AppStrings.editMeal.tr() : AppStrings.addMeal.tr(),
-            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           backgroundColor: Colors.orange,
           elevation: 0,
@@ -92,14 +105,13 @@ class _AddMealScreenState extends State<AddMealScreen> {
             key: _formKey,
             child: ListView(
               children: [
-
                 const SizedBox(height: 20),
 
                 Center(
                   child: MealImagePicker(
                     initialFile: _selectedImage,
                     initialUrl: widget.meal?.mealImages.isNotEmpty == true ? widget.meal!.mealImages.first : null,
-                    onImagePicked: (file) => setState(() => _selectedImage = file),
+                    onImagePicked: (file) => _selectedImage = file,
                   ),
                 ),
 
@@ -124,7 +136,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
 
                 CategoryDropdown(
                   value: _categoryController.text,
-                  onChanged: (val) => setState(() => _categoryController.text = val ?? ''),
+                  onChanged: (val) => _categoryController.text = val ?? '',
                 ),
 
                 const SizedBox(height: 16),
@@ -152,7 +164,10 @@ class _AddMealScreenState extends State<AddMealScreen> {
                           ),
                           Text(
                             AppStrings.mealNumber.tr(),
-                            style: const TextStyle(fontSize: 20, color: Color(0xFF2D2D2D)),
+                            style: const TextStyle(
+                              fontSize: 20,
+                              color: Color(0xFF2D2D2D),
+                            ),
                           ),
                         ],
                       ),
@@ -171,7 +186,10 @@ class _AddMealScreenState extends State<AddMealScreen> {
                         ),
                         Text(
                           AppStrings.mealQuantity.tr(),
-                          style: const TextStyle(fontSize: 20, color: Color(0xFF2D2D2D)),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Color(0xFF2D2D2D),
+                          ),
                         ),
                       ],
                     ),
@@ -180,13 +198,16 @@ class _AddMealScreenState extends State<AddMealScreen> {
 
                 const SizedBox(height: 60),
 
-                CustomButton(
-                  text: _isUploading
-                      ? AppStrings.uploading.tr()
-                      : (widget.meal != null ? AppStrings.editMeal.tr() : AppStrings.addMeal.tr()),
-                  onPressed: () {if (!_isUploading) _submit();},
-                  backgroundColor: _isUploading ? Colors.grey : Colors.orange,
-                  textColor: Colors.white,
+                BlocBuilder<MealCubit, MealState>(
+                  builder: (context, state) {
+                    final isLoading = state is MealLoading;
+                    return CustomButton(
+                      text: isLoading ? AppStrings.uploading.tr() : (widget.meal != null ? AppStrings.editMeal.tr() : AppStrings.addMeal.tr()),
+                      onPressed: isLoading ? () {} : _submit,
+                      backgroundColor: isLoading ? Colors.grey : Colors.orange,
+                      textColor: Colors.white,
+                    );
+                  },
                 ),
 
               ],
@@ -200,41 +221,24 @@ class _AddMealScreenState extends State<AddMealScreen> {
   void _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
-    setState(() => _isUploading = true);
+    final meal = MealEntity(
+      id: widget.meal?.id,
+      chefId: widget.meal?.chefId ?? '',
+      name: _nameController.text,
+      description: _descriptionController.text,
+      price: double.tryParse(_priceController.text) ?? 0.0,
+      category: _categoryController.text,
+      mealImages: widget.meal?.mealImages ?? [],
+      howToSell: _howToSell,
+      createdAt: widget.meal?.createdAt ?? DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
 
-    try {
-      final meal = MealEntity(
-        id: widget.meal?.id,
-        chefId: widget.meal?.chefId ?? '',
-        name: _nameController.text,
-        description: _descriptionController.text,
-        price: double.tryParse(_priceController.text) ?? 0.0,
-        category: _categoryController.text,
-        mealImages: widget.meal?.mealImages ?? [],
-        howToSell: _howToSell,
-        createdAt: widget.meal?.createdAt ?? DateTime.now(),
-        updatedAt: DateTime.now(),
-      );
-
-      final cubit = context.read<MealCubit>();
-      if (widget.meal != null) {
-        await cubit.editMeal(meal, imageFile: _selectedImage);
-      } else {
-        await cubit.addMeal(meal, imageFile: _selectedImage);
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
-    } finally {
-      setState(() => _isUploading = false);
+    final cubit = context.read<MealCubit>();
+    if (widget.meal != null) {
+      await cubit.editMeal(meal, imageFile: _selectedImage);
+    } else {
+      await cubit.addMeal(meal, imageFile: _selectedImage);
     }
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _priceController.dispose();
-    _categoryController.dispose();
-    _descriptionController.dispose();
-    super.dispose();
   }
 }
