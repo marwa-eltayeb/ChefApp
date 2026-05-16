@@ -1,7 +1,5 @@
 class ProfileValidator {
 
-  static const int _minPasswordLength = 8;
-
   static String? validateName(String? name) {
     if (name == null || name.trim().isEmpty) {
       return "Name cannot be empty";

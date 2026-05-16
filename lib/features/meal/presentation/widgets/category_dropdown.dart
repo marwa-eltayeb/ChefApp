@@ -30,8 +30,7 @@ class CategoryDropdown extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
       ),
       child: DropdownButtonFormField<String>(
-        value: value.isEmpty ? null : value,
-
+        initialValue: value.isEmpty ? null : value,
         decoration: InputDecoration(
           hintText: AppStrings.category.tr(),
           hintStyle: const TextStyle(

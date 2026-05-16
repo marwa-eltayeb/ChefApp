@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chef_app/features/auth/domain/use_cases/change_password_use_case.dart';
 import 'package:chef_app/features/auth/domain/use_cases/forgot_password_use_case.dart';
 import 'package:chef_app/features/auth/domain/use_cases/login_use_case.dart';

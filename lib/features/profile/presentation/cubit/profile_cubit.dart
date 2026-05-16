@@ -6,7 +6,7 @@ import 'package:chef_app/features/profile/domain/use_cases/get_profile_use_case.
 import 'package:chef_app/features/profile/domain/use_cases/update_profile_use_case.dart';
 import 'package:chef_app/features/profile/domain/entities/profile_entity.dart';
 
-import 'profile_state.dart';
+import 'package:chef_app/features/profile/presentation/cubit/profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final GetProfileUseCase getProfileUseCase;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ChefIcon extends StatelessWidget {
-  const ChefIcon({Key? key}) : super(key: key);
+  const ChefIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
