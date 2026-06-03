@@ -61,3 +61,10 @@ test_coverage/
 build/**/*.html
 android/build/**/*.html
 ios/build/**/*.html
+
+# AI Rules
+AI_RULES.md
+CLAUDE.md
+
+# Flutter DevTools
+devtools_options.yaml
