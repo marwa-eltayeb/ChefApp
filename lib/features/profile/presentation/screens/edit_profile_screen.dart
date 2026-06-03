@@ -181,8 +181,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _updateProfile() async {
-    final profileCubit = context.read<ProfileCubit>();
-
     final updatedProfile = ProfileEntity(
       id: widget.profile.id,
       name: nameController.text,
@@ -198,6 +196,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       updatedAt: DateTime.now(),
     );
 
-    await profileCubit.updateProfile(updatedProfile, imageFile: _selectedImage);
+    await widget.cubit.updateProfile(updatedProfile, imageFile: _selectedImage);
   }
 }

@@ -186,7 +186,6 @@ class _AddMealScreenState extends State<AddMealScreen> {
 
   void _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    final mealCubit = context.read<MealCubit>();
 
     final meal = MealEntity(
       id: widget.meal?.id,
@@ -202,9 +201,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
     );
 
     if (widget.meal != null) {
-      await mealCubit.editMeal(meal, imageFile: _selectedImage);
+      await widget.cubit.editMeal(meal, imageFile: _selectedImage);
     } else {
-      await mealCubit.addMeal(meal, imageFile: _selectedImage);
+      await widget.cubit.addMeal(meal, imageFile: _selectedImage);
     }
   }
 }
