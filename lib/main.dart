@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:chef_app/app/localization/app_localization.dart';
 import 'package:chef_app/app/localization/language_service.dart';
 import 'package:chef_app/app/router/routes.dart';
 import 'package:chef_app/core/constants/app_assets.dart';
@@ -25,7 +24,7 @@ void main() async {
   );
   setupDependencies();
 
-  await AppLocalization.initEasyLocalization();
+  await EasyLocalization.ensureInitialized();
   final languageService = getIt<LanguageService>();
   final initialLocale = await languageService.getSavedLocale();
   final hasLanguage = await languageService.isLanguageSelected();
