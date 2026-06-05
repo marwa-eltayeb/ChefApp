@@ -4,7 +4,6 @@ import 'package:chef_app/features/meal/data/data_sources/meal_data_source.dart';
 import 'package:chef_app/features/meal/data/models/meal_model.dart';
 import 'package:chef_app/features/meal/domain/entities/meal_entity.dart';
 import 'package:chef_app/features/meal/domain/repositories/meal_repository.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MealRepositoryImpl implements MealRepository {
   final MealDataSource dataSource;

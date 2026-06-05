@@ -44,7 +44,7 @@ class _MealListScreenState extends State<MealListScreen> {
                 CustomButton(
                   text: AppStrings.addMeal.tr(),
                   onPressed: () async {
-                    await GoRouter.of(context,).push(Routes.addMeal, extra: {AppConstants.cubitArg: _mealCubit});
+                    await GoRouter.of(context).push(Routes.addMeal, extra: {AppConstants.cubitArg: _mealCubit});
                   },
                   backgroundColor: Colors.orange,
                   textColor: Colors.white,
