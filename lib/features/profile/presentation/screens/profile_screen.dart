@@ -3,6 +3,7 @@ import 'package:chef_app/app/router/routes.dart';
 import 'package:chef_app/core/constants/app_constants.dart';
 import 'package:chef_app/core/constants/app_strings.dart';
 import 'package:chef_app/core/di/injection.dart';
+import 'package:chef_app/core/widgets/error_state_view.dart';
 import 'package:chef_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:chef_app/features/auth/presentation/cubit/auth_state.dart';
 import 'package:chef_app/features/profile/presentation/cubit/profile_cubit.dart';
@@ -171,7 +172,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     );
                   } else if (state is ProfileError) {
-                    return Center(child: Text(state.message));
+                    return ErrorStateView(
+                      message: state.message,
+                      onRetry: () => context.read<ProfileCubit>().loadProfile(),
+                    );
                   }
                   return const SizedBox.shrink();
                 },

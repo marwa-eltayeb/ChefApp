@@ -3,6 +3,7 @@ import 'package:chef_app/core/constants/app_constants.dart';
 import 'package:chef_app/core/constants/app_strings.dart';
 import 'package:chef_app/core/di/injection.dart';
 import 'package:chef_app/core/widgets/custom_button.dart';
+import 'package:chef_app/core/widgets/error_state_view.dart';
 import 'package:chef_app/features/meal/presentation/widgets/meal_item.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -84,11 +85,9 @@ class _MealListScreenState extends State<MealListScreen> {
                           },
                         );
                       } else if (state is MealError) {
-                        return Center(
-                          child: Text(
-                            state.message,
-                            style: const TextStyle(color: Colors.red),
-                          ),
+                        return ErrorStateView(
+                          message: state.message,
+                          onRetry: () => context.read<MealCubit>().loadMeals(),
                         );
                       }
                       return Center(child: Text(AppStrings.noMeals.tr()));
