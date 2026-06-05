@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:chef_app/core/errors/failures.dart';
 import 'package:chef_app/features/profile/data/models/profile_model.dart';
 import 'package:chef_app/features/profile/domain/entities/profile_entity.dart';
 import 'package:chef_app/features/profile/domain/repositories/profile_repository.dart';
@@ -13,19 +13,31 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   Future<ProfileEntity> getProfile(String id) async {
-    final model = await dataSource.getProfile(id);
-    return model.toEntity();
+    try {
+      final model = await dataSource.getProfile(id);
+      return model.toEntity();
+    } catch (e) {
+      throw PostgrestFailure.fromException(e);
+    }
   }
 
   @override
   Future<ProfileEntity> updateProfile(ProfileEntity profile) async {
-    final model = ProfileModel.fromEntity(profile);
-    final updated = await dataSource.updateProfile(model);
-    return updated.toEntity();
+    try {
+      final model = ProfileModel.fromEntity(profile);
+      final updated = await dataSource.updateProfile(model);
+      return updated.toEntity();
+    } catch (e) {
+      throw PostgrestFailure.fromException(e);
+    }
   }
 
   @override
-  Future<String?> uploadMealImage(File imageFile, String userId) {
-    return dataSource.uploadMealImage(imageFile, userId);
+  Future<String?> uploadMealImage(File imageFile, String userId) async {
+    try {
+      return await dataSource.uploadMealImage(imageFile, userId);
+    } catch (e) {
+      throw StorageFailure.fromException(e);
+    }
   }
 }
