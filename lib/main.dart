@@ -129,6 +129,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      key: ValueKey(context.locale.languageCode),
       title: AppStrings.chefApp.tr(),
       debugShowCheckedModeBanner: false,
       routerConfig: _router,
